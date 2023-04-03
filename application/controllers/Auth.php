@@ -1036,6 +1036,7 @@ class Auth extends CI_Controller
 		$nik = 'LPKN-'.$this->generate_nik(6);
 		$email = $this->input->post('email');
 		$phone = $this->input->post('phone');
+		$profesi = $this->input->post('profesi');
 		$ceknik = $this->db->where('nik', $nik)->get('member')->num_rows();
 		if($ceknik > 0){
 	        $this->res['success'] = false;
@@ -1056,6 +1057,7 @@ class Auth extends CI_Controller
 					'nik' => $nik,
 					'email' => $email,
 					'nama_lengkap' => $nama_lengkap,
+					'profesi' => $profesi,
 					// 'alamat_lengkap' => $alamat_lengkap,
 					// 'kabkota' => $kabkot,
 					'create_date' => date('Y-m-d H:m:s'),

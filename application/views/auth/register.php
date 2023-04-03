@@ -57,6 +57,18 @@
       							</div>
       						</div>
                   <div class="col-lg-12">
+      							<div class="form-group">
+      								<div class="input-group"> 
+      									<label class="mb-2">Profesi </label>
+      									<select name="profesi" type="text" class="form-control mt-3" required="" style="font-size: 14px !important;">
+                          <option value=""> Pilih Profesi </option>
+                          <option value="asn"> ASN </option>
+                          <option value="nonasn"> Non ASN </option>
+                        </select>
+      								</div>
+      							</div>
+      						</div>
+                  <div class="col-lg-12">
                     <div class="form-group">
                       <div class="input-group">
                         <label>Email</label>
