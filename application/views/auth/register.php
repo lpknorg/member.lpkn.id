@@ -72,7 +72,7 @@
                     <div class="form-group">
                       <div class="input-group">
                         <label>Email</label>
-                        <input name="email" type="email" required="" class="form-control">
+                        <input name="email" type="email" required="" class="form-control mt-3" style="font-size: 14px !important;">
                       </div>
                     </div>
                   </div>
@@ -80,7 +80,7 @@
                     <div class="form-group">
                       <div class="input-group">
                         <label>No WhatsApp</label>
-                        <input name="phone" type="number" required="" class="form-control">
+                        <input name="phone" type="number" required="" class="form-control mt-3" style="font-size: 14px !important;">
                       </div>
                     </div>
                   </div>
@@ -88,7 +88,7 @@
       							<div class="form-group last mb-4">
       								<div class="input-group"> 
       									<label>Password</label>
-      									<input name="password" type="password" class="form-control" required="">
+      									<input name="password" type="password" class="form-control mt-3" style="font-size: 14px !important;" required="">
       								</div>
       							</div>
       						</div>
