@@ -41,6 +41,10 @@
     else{
     $this->db->query("UPDATE visitor SET hits=hits+1, online='".$waktu."' WHERE ip='".$ip."' AND date='".$date."'");
     }
+    // var_dump($date);
+    // die();
+    $sql_groupby = "SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''))";
+    $this->db->query($sql_groupby);
     $pengunjunghariini  = $this->db->query("SELECT * FROM visitor WHERE date='".$date."' GROUP BY ip")->num_rows(); // Hitung jumlah pengunjung
     $dbpengunjung = $this->db->query("SELECT COUNT(hits) as hits FROM visitor")->row(); 
     $totalpengunjung = isset($dbpengunjung->hits)?($dbpengunjung->hits):0; // hitung total pengunjung
