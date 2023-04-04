@@ -1084,6 +1084,8 @@ class Auth extends CI_Controller
 		                $this->res['success'] = true;
 		                $this->res['id_user'] = $add_member['id'];
 		                $this->res['msg'] = 'Berhasil, Cek email verifikasi ke "'.$add_member['email'].'" untuk dapat menggunakan akun';
+
+						$this->wa_registrasi_member($phone, $nama_lengkap, $add_member['activation']);
 		            }else{
 		                $this->res['success'] = false;
 		                $this->res['msg'] = 'Gagal Add Users';
@@ -1187,5 +1189,32 @@ class Auth extends CI_Controller
         $result = curl_exec($curl);
         // echo $result;
     } 
+
+	
+	private function wa_registrasi_member($phone, $nama, $code)
+	{
+		$data = array('phone'=> $phone, 'nama'=> $nama, 'code'=>$code);
+
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+		  CURLOPT_URL => 'https://event.lpkn.id/api/member/action/register_member',
+		//   CURLOPT_URL => 'http://localhost:81/event.lpkn.id/api/member/action/register_member',
+		  CURLOPT_RETURNTRANSFER => true,
+		  CURLOPT_ENCODING => '',
+		  CURLOPT_MAXREDIRS => 10,
+		  CURLOPT_TIMEOUT => 0,
+		  CURLOPT_FOLLOWLOCATION => true,
+		  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+		  CURLOPT_CUSTOMREQUEST => 'POST',
+		  CURLOPT_POSTFIELDS => $data,
+		  CURLOPT_HTTPHEADER => array(
+		    'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6ImFkbWluaXN0cmF0b3IiLCJ1c2VyX2dyb3VwIjoiYWRtaW4iLCJpYXQiOjE2NTg4MzQzMzN9.dhoLWPcm4cpXOUouX4GEMFrQBmIz5-RRaMACMUW0wxs',
+		    'Cookie: ci_session=e40e0d7d948983435b6949a4df8efbfaf2238c4b'
+		  ),
+		));
+		$response = curl_exec($curl);
+		curl_close($curl);
+		return $response;
+	}
 
 }

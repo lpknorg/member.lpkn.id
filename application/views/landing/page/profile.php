@@ -357,6 +357,28 @@ $user = $this->ion_auth->user()->row();
 	                        </div>
 	                      </div>
 	                      <div class="form-group row">
+	                        <label for="profesi" class="col-sm-2 col-form-label">Profesi</label>
+	                        <div class="col-sm-10">
+								<select name="profesi" type="text" class="form-control " required="" >
+									<option value=""> Pilih Profesi </option>
+									<option value="asn" <?php if($member->profesi == 'asn') { ?> selected="selected"<?php } ?>> ASN </option>
+									<option value="nonasn" <?php if($member->profesi == 'nonasn') { ?> selected="selected"<?php } ?>> Non ASN </option>
+								</select>
+	                        </div>
+	                      </div>
+						  <div class="form-group row">
+	                        <label for="fb" class="col-sm-2 col-form-label">Akun Facebook</label>
+	                        <div class="col-sm-10">
+							<input type="text" required name="fb" class="form-control" id="fb" placeholder="Akun Facebook" value="<?=$member->fb?>">
+	                        </div>
+	                      </div>
+						  <div class="form-group row">
+	                        <label for="instagram" class="col-sm-2 col-form-label">Akun Instagram</label>
+	                        <div class="col-sm-10">
+							<input type="text" required name="instagram" class="form-control" id="instagram" placeholder="Akun Instagram" value="<?=$member->instagram?>">
+	                        </div>
+	                      </div>
+	                      <div class="form-group row">
 	                        <div class="offset-sm-2 col-sm-10">
 	                          <div class="checkbox">
 	                            <label>

@@ -177,6 +177,8 @@ class Page extends CI_Controller {
         		'tempat_lahir' => $this->input->post('tempat_lahir'), 
         		'tgl_lahir' => $this->input->post('tgl_lahir'), 
         		'instansi' => $this->input->post('instansi'), 
+        		'fb' => $this->input->post('fb'), 
+        		'instagram' => $this->input->post('instagram'), 
         	);
         	$data_user = array(
         		'first_name' => $this->input->post('nama_lengkap'), 
@@ -945,6 +947,5 @@ class Page extends CI_Controller {
             $pdf->Output('KTA '.$user->first_name.' '.$user->last_name.'.pdf', 'D');
         }
     }
-
     
 }
