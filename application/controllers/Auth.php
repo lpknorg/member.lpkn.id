@@ -1085,7 +1085,7 @@ class Auth extends CI_Controller
 		                $this->res['id_user'] = $add_member['id'];
 		                $this->res['msg'] = 'Berhasil, Cek email verifikasi ke "'.$add_member['email'].'" untuk dapat menggunakan akun';
 
-						$this->wa_registrasi_member($phone, $nama_lengkap, $add_member['activation']);
+						$this->wa_registrasi_member($add_member['email'], $phone, $nama_lengkap, $add_member['activation']);
 		            }else{
 		                $this->res['success'] = false;
 		                $this->res['msg'] = 'Gagal Add Users';
@@ -1191,9 +1191,10 @@ class Auth extends CI_Controller
     } 
 
 	
-	private function wa_registrasi_member($phone, $nama, $code)
+	private function wa_registrasi_member($email, $phone, $nama, $code)
 	{
-		$data = array('phone'=> $phone, 'nama'=> $nama, 'code'=>$code);
+		$row_user = $this->db->where('email', $email)->get('users')->row();
+		$data = array('id'=> $row_user->id, 'phone'=> $phone, 'nama'=> $nama, 'code'=>$code);
 
 		$curl = curl_init();
 		curl_setopt_array($curl, array(

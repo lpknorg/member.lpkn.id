@@ -947,5 +947,101 @@ class Page extends CI_Controller {
             $pdf->Output('KTA '.$user->first_name.' '.$user->last_name.'.pdf', 'D');
         }
     }
+
+	public function getArtikel(){
+		// $id = 545;
+		$id = $this->input->post('id_artikel');
+		$data = ['id' => $id];
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+		  CURLOPT_URL => 'http://localhost:81/LPKNID/api/Artikel/get_artikel',
+		  CURLOPT_RETURNTRANSFER => true,
+		  CURLOPT_ENCODING => '',
+		  CURLOPT_MAXREDIRS => 10,
+		  CURLOPT_TIMEOUT => 0,
+		  CURLOPT_FOLLOWLOCATION => true,
+		  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+		  CURLOPT_CUSTOMREQUEST => 'POST',
+		  CURLOPT_POSTFIELDS => $data,
+		  CURLOPT_HTTPHEADER => array(
+		    'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6ImFkbWluaXN0cmF0b3IiLCJ1c2VyX2dyb3VwIjoiYWRtaW4iLCJpYXQiOjE2NTg4MzQzMzN9.dhoLWPcm4cpXOUouX4GEMFrQBmIz5-RRaMACMUW0wxs',
+		    'Cookie: ci_session=ll7c9n7fav9lv01otctbitrmjpjmmp4j'
+		  ),
+		));
+
+		$response = curl_exec($curl);
+		curl_close($curl);
+		$result = json_decode($response, TRUE);
+
+		if($result['status'] == 'TRUE'){
+
+			$html = '';
+			if($id == 'all'){
+				foreach($result['artikels'] as $artikel){
+					$html .= '
+					<div class="col-md-4 mb-3">
+					<div class="card mb-4 shadow-sm h-100">
+					  <div class="card-head">
+						<div class="user-image" style="background: url('.$artikel['linkfoto'].') 50% 50% no-repeat; background-size: 125% auto; background-repeat: no-repeat; padding-bottom: 0px; height: 190px;"></div>
+					  </div>
+					  <div class="card-body">
+						<div class="d-flex justify-content-between align-items-center">
+						  <small><a href="">Create By : '.$artikel['first_name'].'</a></small>
+						  <small><a href="">'.$artikel['jenis_artikel'].'</a></small>
+						  <!-- <small class="text-muted">Hasil Penelitian</small> -->
+						</div>
+						<hr>
+						<p class="card-text text-center">'.$artikel['judul'].'<hr/>Waktu Kegiatan :<br/>'.$artikel['waktu'].'</p>
+					  </div>
+	
+					  <div class="card-footer">
+						<div class="d-flex justify-content-between align-items-center">
+						  <small class="text-muted"><i class="far fa-calendar-alt"></i> '.mediumdate_indo($artikel['create_date']).'</small>
+						  <div class="btn-group">
+						  	<a href="#!" id="readmore" class="btn btn-xs btn-info white-text d-flex justify-content-end readmore" data-id="'.$artikel['id_artikel'].'" onclick="getArtikelByid(this);">
+								<h5>Read More <i class="fas fa-angle-double-right"></i></h5>
+							</a>
+						  </div>
+						</div>
+					  </div>
+					</div>
+				  </div>
+					';
+				}
+				
+			}else{
+				$artikel =$result['artikels'];
+				$html .= '
+				<div class="col-md-12 mb-3 flex-column">
+					<div class="card mb-4 shadow-sm h-100">
+						<div class="card-head"></div>
+						<div class="card-body text-center">
+							<div class="text-left">
+								<h4>'.$artikel['judul'].'</h4>
+								<small class="text-left"><a href="">Dibuat Oleh : <i class="fa fa-user"></i> '.$artikel['first_name'].'</a></small> | 
+								<small class="text-muted text-left"><i class="far fa-calendar-alt"></i> '.mediumdate_indo($artikel['create_date']).'</small>
+							</div>
+							<hr/>
+							<img width="100%" src="'.$artikel['linkfoto'].'">
+							<hr>
+							<div class="card-text pl-3 pr-3 text-left">'.$artikel['isi'].'</div>
+							<hr>
+						</div>
+						</div>
+					</div>
+				</div>
+				';	
+
+			}
+
+			$response = $html;
+
+		}else{
+			$response = 'Data dukumentasi kegiatan tidak ditemukan';
+		}
+
+		echo json_encode($response);
+
+	}
     
 }

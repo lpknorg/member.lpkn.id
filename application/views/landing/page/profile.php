@@ -1,86 +1,95 @@
+
+
 <style>
-.parent_pp {
-  /*border: 1px solid;*/
-  width: 20vh;
-  height: 20vh;
-  overflow: hidden;
-  display: flex;
-  /*border-radius: 50%;*/
-}
+	.dokumentasi-kegiatan{
+		padding: 7px;
+		margin: 7px;
+		background: #fff;
+	}
 
-.pp {
-  max-width: inherit;
-  max-height: inherit;
-  height: inherit;
-  width: inherit;
-  object-fit: cover;
-}
+	.parent_pp {
+	/*border: 1px solid;*/
+	width: 20vh;
+	height: 20vh;
+	overflow: hidden;
+	display: flex;
+	/*border-radius: 50%;*/
+	}
+
+	.pp {
+	max-width: inherit;
+	max-height: inherit;
+	height: inherit;
+	width: inherit;
+	object-fit: cover;
+	}
 
 
-      .card-special {
-         z-index: 1;
-         border-radius: 6px 6px 6px 6px;
-         border: 1;
-         transition: 0.4s;
-      }
-       .card-wrapper-special {
-         padding: 6px;
-         /*box-shadow: 0 10px 60px 0 rgba(0, 0, 0, 0.2);*/
-      }
-       .card-special:hover {
-         transform: scale(1.1);
-         box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.4);
-         z-index: 2;
-      }
-       .card-text-special {
-         color: #fea200;
-         font-weight: 500;
-      }
-       .card-img-top-special {
-         /*border-radius: unset;*/
-         border-radius: 5px 5px 5px 5px;
-      }
+	.card-special {
+		z-index: 1;
+		border-radius: 6px 6px 6px 6px;
+		border: 1;
+		transition: 0.4s;
+	}
+	.card-wrapper-special {
+		padding: 6px;
+		/*box-shadow: 0 10px 60px 0 rgba(0, 0, 0, 0.2);*/
+	}
+	.card-special:hover {
+		transform: scale(1.1);
+		box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.4);
+		z-index: 2;
+	}
+	.card-text-special {
+		color: #fea200;
+		font-weight: 500;
+	}
+	.card-img-top-special {
+		/*border-radius: unset;*/
+		border-radius: 5px 5px 5px 5px;
+	}
 
-      .img__description_layer {
-        font-size: 14px;
-        /*font-weight: bold;*/
-        position: absolute;
-        text-align: center;
-        padding: 6px
-        top: auto;
-        /*top: 100px;*/
-        width: 100%;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        border-radius: 0px 0px 5px 5px;
-        /*background: rgba(0 0 0 / 85%);*/
-        color: white;
-        visibility: hidden;
-        opacity: 0;
-        /*display: flex;*/
-        align-items: center;
-        justify-content: bottom;
+	.img__description_layer {
+	font-size: 14px;
+	/*font-weight: bold;*/
+	position: absolute;
+	text-align: center;
+	padding: 6px
+	top: auto;
+	/*top: 100px;*/
+	width: 100%;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	border-radius: 0px 0px 5px 5px;
+	/*background: rgba(0 0 0 / 85%);*/
+	color: white;
+	visibility: hidden;
+	opacity: 0;
+	/*display: flex;*/
+	align-items: center;
+	justify-content: bottom;
 
-        /* transition effect. not necessary */
-        transition: opacity .2s, visibility .2s;
-      }
-      .img__wrap:hover .img__description_layer {
-        visibility: visible;
-        opacity: 1;
-      }
+	/* transition effect. not necessary */
+	transition: opacity .2s, visibility .2s;
+	}
+	.img__wrap:hover .img__description_layer {
+	visibility: visible;
+	opacity: 1;
+	}
 
-      /*button load_more*/
-      @media only screen and (min-width: 767px) {
-        .show-large {
-          display: block;
-        }
-        .show-mobile {
-          display: none;
-        }
-      }
+	/*button load_more*/
+	@media only screen and (min-width: 767px) {
+	.show-large {
+		display: block;
+	}
+	.show-mobile {
+		display: none;
+	}
+	}
 
 </style>
+
 <?php
 $user = $this->ion_auth->user()->row();
 // $member = $this->db->where('nik', $user->username)->get('member')->row();
@@ -88,7 +97,7 @@ $user = $this->ion_auth->user()->row();
 	<div class="content-header">
 	    <!-- Main content -->
 	    <div class="content">
-	      <div class="container">
+	      <!-- <div class="container"> -->
 
 	        <div class="row">
 	          <div class="col-md-3">
@@ -191,6 +200,7 @@ $user = $this->ion_auth->user()->row();
 	                  <li class="nav-item"><a class="nav-link" href="#sertif" data-toggle="tab">Sertifikat Kamu</a></li>
 	                  <li class="nav-item"><a class="nav-link <?=$active == 'profile' ? 'active' : ''?>" href="#settings" data-toggle="tab">Update Profile</a></li>
 	                  <li class="nav-item"><a class="nav-link <?=$active == 'afiliasi' ? 'active' : ''?>" href="#afiliasi" data-toggle="tab">Afiliasi</a></li>
+	                  <li class="nav-item"><a class="nav-link <?=$active == 'dokumentasi' ? 'active' : ''?>" href="#dokumentasi" data-toggle="tab">Dokumentasi</a></li>
 	                </ul>
 	              </div><!-- /.card-header -->
 	              <div class="card-body">
@@ -456,6 +466,18 @@ $user = $this->ion_auth->user()->row();
 			              	</div>
 
 	                  </div>
+					  
+					  <!-- dokumentasi -->
+					  <div class="tab-pane dokumentasi" id="dokumentasi">
+						  <h5 class="pb-2 font-italic border-bottom">
+							  Dokumentasi 
+							  <small><a class="badge badge-primary ml-2 gotoback" onclick="goToBack()" style="display:none;"><i class="fa fa-arrow-left"></i> Go To Back</a></small>
+							</h5>
+							<div class="row dokumentasi-kegiatan" id="dokumentasi-kegiatan" >
+																
+							</div>
+	                  </div>
+
 	                </div>
 	                <!-- /.tab-content -->
 	              </div><!-- /.card-body -->
@@ -466,12 +488,13 @@ $user = $this->ion_auth->user()->row();
 	        </div>
 	        <!-- /.row -->
 
-	      </div><!-- /.container-fluid -->
+	      <!-- </div>/.container-fluid -->
 	    </div>
 	    <!-- /.content -->
 	</div>
 	<!-- /.content-header -->
 <!-- Modal -->
+
 <div class="modal fade" id="update_foto" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     
@@ -496,6 +519,38 @@ $user = $this->ion_auth->user()->row();
 </div>
 
   <script>
+	var id_artikel = 'all';
+	load_dokumentasi_kegiatan(id_artikel);
+
+	function getArtikelByid(identifier){
+		var id_artikel = $(identifier).data('id');
+		load_dokumentasi_kegiatan(id_artikel);
+	}
+
+	function load_dokumentasi_kegiatan(id_artikel){
+		if(id_artikel != 'all'){
+			$(".gotoback").show()
+		}else{
+			$(".gotoback").hide()
+		}
+
+		$.ajax({
+            url:"<?=base_url()?>page/getArtikel",    //the page containing php script
+            type: "post",    //request type,
+            dataType: 'json',
+            data: {id_artikel:id_artikel},
+            success:function(result){
+                console.log(result);
+				$('.dokumentasi-kegiatan').html(result);
+            }
+        });
+	}
+
+	function goToBack(){
+		var id_artikel = 'all';
+		load_dokumentasi_kegiatan(id_artikel);
+	}
+
   	// alert($(location).attr('href'));
     $('#foto_form').on('submit', function(e){
         e.preventDefault();
@@ -546,9 +601,7 @@ $user = $this->ion_auth->user()->row();
                 // alert('gagal');
             }
         })
-        
-            
-      });
+    });
   </script>
 
 <script src="<?=base_url()?>assets/adminlte/plugins/datatables/jquery.dataTables.min.js"></script>
