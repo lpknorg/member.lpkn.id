@@ -201,282 +201,300 @@ $user = $this->ion_auth->user()->row();
 	                  <li class="nav-item"><a class="nav-link <?=$active == 'profile' ? 'active' : ''?>" href="#settings" data-toggle="tab">Update Profile</a></li>
 	                  <li class="nav-item"><a class="nav-link <?=$active == 'afiliasi' ? 'active' : ''?>" href="#afiliasi" data-toggle="tab">Afiliasi</a></li>
 	                  <li class="nav-item"><a class="nav-link <?=$active == 'dokumentasi' ? 'active' : ''?>" href="#dokumentasi" data-toggle="tab">Dokumentasi</a></li>
+	                  <li class="nav-item"><a class="nav-link <?=$active == 'kodevoucher' ? 'active' : ''?>" href="#kodevoucher" data-toggle="tab">Kode Voucher</a></li>
 	                </ul>
 	              </div><!-- /.card-header -->
 	              <div class="card-body">
 	                <div class="tab-content">
-	                  <div class="<?=$active == 'recomended' ? 'active' : ''?> tab-pane" id="recomended">
-	                    <!-- Post -->
-				              <h5 class="font-italic">
-				                Rekomentasi Event <small><a class="badge badge-primary" href="<?=base_url()?>page/allevent">Semua Event</a></small>
-				              </h5>
-				              <p class=" border-bottom">Kemi merekomendasikan Event dibawah untukmu dari beberapa aktiritas kami di web ini</p>
-							        <div class="row">
-							        	<?php 
-							        		foreach ($new_event['event'] as $list_new_event) {
-							        	?>
-							          <div class="col-sm-4 card-wrapper-special">
-							            <div class="card card-special img__wrap">
-							              <img class="card-img-top card-img-top-special" src="<?=$list_new_event['brosur_img']?>" alt="Card image cap">
-							              <div class="img__description_layer">
-							                <p style="padding: 6px">
-							                  <!-- <?=$list_new_event['judul']?><br> -->
-							                  <button type="button" onclick="get_event('<?=$list_new_event['slug']?>');" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">Selengkapnya</button>
-							              </div>
-							            </div>
-							          </div> 
-							          <?php 
-							          	}
-							          ?>                       
-							        </div>
-	                  </div>
-	                  <div class="tab-pane" id="waiting_pay">
-	                    <!-- Post -->
-				              <h5 class="font-italic">
-				                Event Menunggu Pembayaran <small><a class="badge badge-primary" href="<?=base_url()?>page/allevent">Semua Event</a></small>
-				              </h5>
-				              <p class=" border-bottom">Kemi merekomendasikan Event dibawah untukmu dari beberapa aktiritas kami di web ini</p>
-							        <div class="row">
-							        	<?php 
-							        		foreach ($waiting_event['event'] as $list_waiting_event) {
-							        	?>
-							          <div class="col-sm-4 card-wrapper-special">
-							            <div class="card card-special img__wrap">
-							              <img class="card-img-top card-img-top-special" src="<?=$list_waiting_event['brosur_img']?>" alt="Card image cap">
-							              <div class="img__description_layer">
-							                <p style="padding: 6px">
-							                  <!-- <?=$list_waiting_event['judul']?><br> -->
-							                  <button type="button" onclick="get_event('<?=$list_waiting_event['slug']?>');" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">Selengkapnya</button>
-							              </div>
-							            </div>
-							          </div> 
-							          <?php 
-							          	}
-							          ?>                       
-							        </div>
-	                  </div>
-	                  <div class="tab-pane" id="sertif">
-	                    <!-- Post -->
-				              <h5 class="font-italic">
-				                List Sertifikat <small><a class="badge badge-primary" href="<?=base_url()?>page/allevent">Semua Event</a></small>
-				              </h5>
-				              <p class=" border-bottom">Sertifikat yang telah kamu peroleh di acara kami</p>
-				              <!-- <div class="card-body"> -->
-				                <table id="example1" class="table table-bordered table-striped table-sm">
-				                  <thead>
-					                  <tr>
-					                    <th>No.</th>
-					                    <th>Judul</th>
-					                    <th>Action</th>
-					                  </tr>
-				                  </thead>
-				                  <tbody>
-							        		<?php
-							        			$no = 1;
-							        			foreach ($list_sertif['list'] as $list) {
-							        		?>
-					                  <tr>
-					                    <td><?=$no++?></td>
-					                    <td><?=$list['judul']?></td>
-					                    <td>
-							        					<a class="btn btn-success btn-sm" target="blank_" href="<?=$list['download']?>">Download</a>
-					                    </td>
-					                  </tr>
-							        		<?php }?>
-					                </tbody>
-					              </table>
-					            <!-- </div> -->
-	                  </div>
-	                  <div class="tab-pane" id="yourclass">
-	                    <!-- Post -->
-				              <h5 class="pb-2 font-italic border-bottom">
-				                Event yang Kamu ikuti <small><a class="badge badge-primary" href="<?=base_url()?>page/allevent">Semua Event</a></small>
-				              </h5>
-							        <div class="row">
-							        	<?php 
-							        		foreach ($my_event['event'] as $list_event) {
-							        	?>
-							          <div class="col-sm-4 card-wrapper-special">
-							            <div class="card card-special img__wrap">
-							              <img class="card-img-top card-img-top-special" src="<?=$list_event['brosur_img']?>" alt="Card image cap">
-							              <div class="img__description_layer">
-							                <p style="padding: 6px">
-							                  <!-- <?=$list_event['judul']?><br> -->
-							                  <button type="button" onclick="get_event('<?=$list_event['slug']?>');" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">Selengkapnya</button>
-							              </div>
-							            </div>
-							          </div> 
-							          <?php 
-							          	}
-							          ?>               
-							        </div>
-	                  </div>
-	                  <!-- /.tab-pane -->
+						<div class="<?=$active == 'recomended' ? 'active' : ''?> tab-pane" id="recomended">
+							<!-- Post -->
+								<h5 class="font-italic">
+									Rekomentasi Event <small><a class="badge badge-primary" href="<?=base_url()?>page/allevent">Semua Event</a></small>
+								</h5>
+								<p class=" border-bottom">Kemi merekomendasikan Event dibawah untukmu dari beberapa aktiritas kami di web ini</p>
+										<div class="row">
+											<?php 
+												foreach ($new_event['event'] as $list_new_event) {
+											?>
+										<div class="col-sm-4 card-wrapper-special">
+											<div class="card card-special img__wrap">
+											<img class="card-img-top card-img-top-special" src="<?=$list_new_event['brosur_img']?>" alt="Card image cap">
+											<div class="img__description_layer">
+												<p style="padding: 6px">
+												<!-- <?=$list_new_event['judul']?><br> -->
+												<button type="button" onclick="get_event('<?=$list_new_event['slug']?>');" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">Selengkapnya</button>
+											</div>
+											</div>
+										</div> 
+										<?php 
+											}
+										?>                       
+										</div>
+						</div>
+						<div class="tab-pane" id="waiting_pay">
+							<!-- Post -->
+								<h5 class="font-italic">
+									Event Menunggu Pembayaran <small><a class="badge badge-primary" href="<?=base_url()?>page/allevent">Semua Event</a></small>
+								</h5>
+								<p class=" border-bottom">Kemi merekomendasikan Event dibawah untukmu dari beberapa aktiritas kami di web ini</p>
+										<div class="row">
+											<?php 
+												foreach ($waiting_event['event'] as $list_waiting_event) {
+											?>
+										<div class="col-sm-4 card-wrapper-special">
+											<div class="card card-special img__wrap">
+											<img class="card-img-top card-img-top-special" src="<?=$list_waiting_event['brosur_img']?>" alt="Card image cap">
+											<div class="img__description_layer">
+												<p style="padding: 6px">
+												<!-- <?=$list_waiting_event['judul']?><br> -->
+												<button type="button" onclick="get_event('<?=$list_waiting_event['slug']?>');" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">Selengkapnya</button>
+											</div>
+											</div>
+										</div> 
+										<?php 
+											}
+										?>                       
+										</div>
+						</div>
+						<div class="tab-pane" id="sertif">
+							<!-- Post -->
+								<h5 class="font-italic">
+									List Sertifikat <small><a class="badge badge-primary" href="<?=base_url()?>page/allevent">Semua Event</a></small>
+								</h5>
+								<p class=" border-bottom">Sertifikat yang telah kamu peroleh di acara kami</p>
+								<!-- <div class="card-body"> -->
+									<table id="example1" class="table table-bordered table-striped table-sm">
+									<thead>
+										<tr>
+											<th>No.</th>
+											<th>Judul</th>
+											<th>Action</th>
+										</tr>
+									</thead>
+									<tbody>
+												<?php
+													$no = 1;
+													foreach ($list_sertif['list'] as $list) {
+												?>
+										<tr>
+											<td><?=$no++?></td>
+											<td><?=$list['judul']?></td>
+											<td>
+															<a class="btn btn-success btn-sm" target="blank_" href="<?=$list['download']?>">Download</a>
+											</td>
+										</tr>
+												<?php }?>
+										</tbody>
+									</table>
+									<!-- </div> -->
+						</div>
+						<div class="tab-pane" id="yourclass">
+							<!-- Post -->
+								<h5 class="pb-2 font-italic border-bottom">
+									Event yang Kamu ikuti <small><a class="badge badge-primary" href="<?=base_url()?>page/allevent">Semua Event</a></small>
+								</h5>
+										<div class="row">
+											<?php 
+												foreach ($my_event['event'] as $list_event) {
+											?>
+										<div class="col-sm-4 card-wrapper-special">
+											<div class="card card-special img__wrap">
+											<img class="card-img-top card-img-top-special" src="<?=$list_event['brosur_img']?>" alt="Card image cap">
+											<div class="img__description_layer">
+												<p style="padding: 6px">
+												<!-- <?=$list_event['judul']?><br> -->
+												<button type="button" onclick="get_event('<?=$list_event['slug']?>');" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">Selengkapnya</button>
+											</div>
+											</div>
+										</div> 
+										<?php 
+											}
+										?>               
+										</div>
+						</div>
+						<!-- /.tab-pane -->
 
-	                  <div class="<?=$active == 'profile' ? 'active' : ''?> tab-pane" id="settings">
-			              	<h2>Update Profile Member</h2>
-			              	<hr/>
-	                    <form class="form-horizontal" method="post" action="./update_profile" class="jsform">
-	                      <div class="form-group row">
-	                        <label for="nik" class="col-sm-2 col-form-label">No. Member</label>
-	                        <label for="nik" class="col-sm-10 col-form-label">: <?=$member->nik?></label>
-	                        <!-- <input type="hidden" name="nik" value="<?=$member->nik?>"> -->
-	                      </div>
-	                      <div class="form-group row">
-	                        <label for="" class="col-sm-2 col-form-label">Nama Lengkap</label>
-	                        <div class="col-sm-10">
-	                          <input type="text" required name="nama_lengkap" class="form-control" id="inputName" placeholder="Name" value="<?=$member->nama_lengkap?>">
-	                        </div>
-	                      </div>
-	                      <div class="form-group row">
-	                        <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
-	                        <div class="col-sm-10">
-	                          <input type="email" class="form-control" id="inputEmail" readonly placeholder="Email" value="<?=$member->email?>">
-	                          <span><i><small class="text-warning">(Perubahan Email membutuhkan bantuan panitia, karena akan berdampak kepada data event Anda)</small></i></span>
-	                        </div>
-	                      </div>
-	                      <div class="form-group row">
-	                        <label for="inputNo_Hp" class="col-sm-2 col-form-label">No_Hp </label>
-	                        <div class="col-sm-10">
-	                          <input type="number" class="form-control" id="inputNo_Hp" required name="no_hp" placeholder="Email" value="<?=$member->no_hp?>">
-	                          <span><i><small class="text-warning">(Gunakan nomor WhatsApp Aktif)</small></i></span>
-	                        </div>
-	                      </div>
-	                      <div class="form-group row">
-	                        <label for="inputTmptLahir" class="col-sm-2 col-form-label">Tempat Lahir</label>
-	                        <div class="col-sm-10">
-	                          <input type="text" name="tempat_lahir" class="form-control" id="inputTmptLahir" placeholder="Tempat Lahir" value="<?=$member->tempat_lahir?>">
-	                        </div>
-	                      </div>
-	                      <div class="form-group row">
-	                        <label for="inputTanggalLahir" class="col-sm-2 col-form-label">Tanggal Lahir</label>
-	                        <div class="col-sm-10">
-	                          <input type="date" name="tgl_lahir" class="form-control" id="inputTanggalLahir" placeholder="Tanggal Lahir" value="<?=$member->tgl_lahir?>">
-	                        </div>
-	                      </div>
-	                      <div class="form-group row">
-	                        <label for="inputAlamat" class="col-sm-2 col-form-label">Alamat</label>
-	                        <div class="col-sm-10">
-	                        	<textarea class="form-control" id="inputAlamat" required name="alamat_lengkap"><?=$member->alamat_lengkap?></textarea>
-	                        </div>
-	                      </div>
-	                      <div class="form-group row">
-	                        <label for="Instansi" class="col-sm-2 col-form-label">Instansi</label>
-	                        <div class="col-sm-10">
-	                          <input type="text" required name="instansi" class="form-control" id="Instansi" placeholder="Instansi" value="<?=$member->instansi?>">
-	                        </div>
-	                      </div>
-	                      <div class="form-group row">
-	                        <label for="profesi" class="col-sm-2 col-form-label">Profesi</label>
-	                        <div class="col-sm-10">
-								<select name="profesi" type="text" class="form-control " required="" >
-									<option value=""> Pilih Profesi </option>
-									<option value="asn" <?php if($member->profesi == 'asn') { ?> selected="selected"<?php } ?>> ASN </option>
-									<option value="nonasn" <?php if($member->profesi == 'nonasn') { ?> selected="selected"<?php } ?>> Non ASN </option>
-								</select>
-	                        </div>
-	                      </div>
-						  <div class="form-group row">
-	                        <label for="fb" class="col-sm-2 col-form-label">Akun Facebook</label>
-	                        <div class="col-sm-10">
-							<input type="text" required name="fb" class="form-control" id="fb" placeholder="Akun Facebook" value="<?=$member->fb?>">
-	                        </div>
-	                      </div>
-						  <div class="form-group row">
-	                        <label for="instagram" class="col-sm-2 col-form-label">Akun Instagram</label>
-	                        <div class="col-sm-10">
-							<input type="text" required name="instagram" class="form-control" id="instagram" placeholder="Akun Instagram" value="<?=$member->instagram?>">
-	                        </div>
-	                      </div>
-	                      <div class="form-group row">
-	                        <div class="offset-sm-2 col-sm-10">
-	                          <div class="checkbox">
-	                            <label>
-	                              <input type="checkbox"> I agree to the <a href="#">terms and conditions</a>
-	                            </label>
-	                          </div>
-	                        </div>
-	                      </div>
-	                      <div class="form-group row">
-	                        <div class="offset-sm-2 col-sm-10">
-	                          <button type="submit" class="btn btn-danger">Update Profile</button>
-	                        </div>
-	                      </div>
-	                    </form>
-	                  </div>
-	                  <!-- /.tab-pane -->
-	                  <div class="<?=$active == 'afiliasi' ? 'active' : ''?> tab-pane" id="afiliasi">
-<!-- 			              	<h2>Afiliasi</h2>
-			              	<hr/> -->
-			              	<!-- <br/> -->
-			              	<div class="card">
-			              		<div class="card-body">
-			              			<h5 class="font-italic text-warning">Ingin Mendapatkan Penghasilan tambahan ?<br/>Hanya dengan membagikan Informasi Event-event yang ada ke Rekan-rekan Anda..</h5>
-			              			<p class="text-justify">Affiliate adalah sebuah strategi marketing yang memungkinkan kita mendapatkan komisi atas kegiatan pemasaran yang kita lakukan. Kemudahan yang ditawarkan melalui Program Affiliate Marketing ini adalah kamu sebagai affiliate partner tidak memerlukan modal apa pun untuk menjalankan bisnis internet ini.<br/>Bisnis ini juga bisa dilakukan pada waktu senggang di sela-sela kesibukan kamu. Mendapatkan penghasilan yang mudah saat ini adalah dengan bergabung di Affiliate Program, dan lakukan bisnis tanpa modal dengan komisi yang besar</p>
-			              			<h5 class="font-italic text-warning">Cara Kerja Affiliate :</h5>
-			              			<ul>
-			              				<li>Mengaktifkan tombol dibawah</li>
-			              				<li>Membagikan Event-event yang ada ke WhatsApp atau Sosial media lainnya</li>
-			              				<li>Setiap orang yang mendaftarkan diri melalui Link Promosi Anda, akan otomatis tercatat dan anda dapat pantau</li>
-			              				<li>Penghitungan Bonus : Peserta Anda yang telah melakukan Pembayaran x Bonus</li>
-			              				<li>Ilustrasi : Peserta yang mendaftar melalui Link Affilitae anda sebanyak 250 orang, dan 200 orang telah menyelesaikan Pembayaran, maka Bonus Anda adalah 200 x Rp. 150.000 = Rp. 30.000.000,-</li>
-			              			</ul>
-			              			<?php if(is_null($member->ref)){ ?>
-					              	<div class="text-center">
-					              		<div class="h5 text-warning">Aktifkan Afiliasi Kamu</div>
-					              		<a onclick="return confirm('Are you sure?');" href="<?=base_url()?>page/act_ref" class="btn btn-success">Aktifkan Sekarang</a>
-					              	</div>
-						              <?php }else{ ?>
-					              	<div class="text-center">
-					              		<div class="h5 text-warning">Afiliasi Kamu Telah Aktif</div>
-					              		<!-- <a onclick="return confirm('Are you sure?');" href="<?=base_url()?>page/act_ref" class="btn btn-success">Aktifkan Sekarang</a> -->
-					              	</div>
-					              	<div>
-				                    <form class="form-horizontal" method="post" action="./update_ref" class="jsform">
-				                      <div class="form-group row">
-				                        <label for="nik" class="col-sm-2 col-form-label">Kode Referensi</label>
-				                        <label for="nik" class="col-sm-10 col-form-label">: <?=$member->ref?></label>
-				                        <!-- <input type="hidden" name="nik" value="<?=$member->nik?>"> -->
-				                      </div>
-				                      <div class="form-group row">
-				                        <label for="" class="col-sm-2 col-form-label">Nama Bank</label>
-				                        <div class="col-sm-3">
-				                          <input type="text" required name="bank_rek_ref" class="form-control" id="inputName" placeholder="Contoh: BRI" value="<?=$member->bank_rek_ref?>">
-				                        </div>
-				                        <label for="" class="col-sm-2 col-form-label">No. Rekening</label>
-				                        <div class="col-sm-5">
-				                          <input type="number" required name="no_rek_ref" class="form-control" id="inputName" placeholder="No. Rekening" value="<?=$member->no_rek_ref?>">
-				                        </div>
-				                      </div>
-				                      <div class="form-group row">
-				                        <label for="inputEmail" class="col-sm-2 col-form-label">A/N Rekening</label>
-				                        <div class="col-sm-10">
-				                          <input type="text" required name="an_rek_ref" class="form-control" id="inputEmail" placeholder="A/N Pemilik Rekening" value="<?=$member->an_rek_ref?>">
-				                          <span><i><small class="text-warning">(Perubahan Email membutuhkan bantuan panitia, karena akan berdampak kepada data event Anda)</small></i></span>
-				                        </div>
-				                      </div>
-				                      <div class="text-center">
-					                      <button type="submit" class="btn btn-danger">Simpan</button>
-					                      <a href="<?=base_url()?>page/afiliasi" class="btn btn-success">Lihat Bonus</a>
-				                      </div>
-				                    </form>
-			                    </div>
-				                  <?php } ?>
-			              		</div>
-			              	</div>
-
-	                  </div>
-					  
-					  <!-- dokumentasi -->
-					  <div class="tab-pane dokumentasi" id="dokumentasi">
-						  <h5 class="pb-2 font-italic border-bottom">
-							  Dokumentasi 
-							  <small><a class="badge badge-primary ml-2 gotoback" onclick="goToBack()" style="display:none;"><i class="fa fa-arrow-left"></i> Go To Back</a></small>
+						<div class="<?=$active == 'profile' ? 'active' : ''?> tab-pane" id="settings">
+								<h2>Update Profile Member</h2>
+								<hr/>
+							<form class="form-horizontal" method="post" action="./update_profile" class="jsform">
+							<div class="form-group row">
+								<label for="nik" class="col-sm-2 col-form-label">No. Member</label>
+								<label for="nik" class="col-sm-10 col-form-label">: <?=$member->nik?></label>
+								<!-- <input type="hidden" name="nik" value="<?=$member->nik?>"> -->
+							</div>
+							<div class="form-group row">
+								<label for="" class="col-sm-2 col-form-label">Nama Lengkap</label>
+								<div class="col-sm-10">
+								<input type="text" required name="nama_lengkap" class="form-control" id="inputName" placeholder="Name" value="<?=$member->nama_lengkap?>">
+								</div>
+							</div>
+							<div class="form-group row">
+								<label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
+								<div class="col-sm-10">
+								<input type="email" class="form-control" id="inputEmail" readonly placeholder="Email" value="<?=$member->email?>">
+								<span><i><small class="text-warning">(Perubahan Email membutuhkan bantuan panitia, karena akan berdampak kepada data event Anda)</small></i></span>
+								</div>
+							</div>
+							<div class="form-group row">
+								<label for="inputNo_Hp" class="col-sm-2 col-form-label">No_Hp </label>
+								<div class="col-sm-10">
+								<input type="number" class="form-control" id="inputNo_Hp" required name="no_hp" placeholder="Email" value="<?=$member->no_hp?>">
+								<span><i><small class="text-warning">(Gunakan nomor WhatsApp Aktif)</small></i></span>
+								</div>
+							</div>
+							<div class="form-group row">
+								<label for="inputTmptLahir" class="col-sm-2 col-form-label">Tempat Lahir</label>
+								<div class="col-sm-10">
+								<input type="text" name="tempat_lahir" class="form-control" id="inputTmptLahir" placeholder="Tempat Lahir" value="<?=$member->tempat_lahir?>">
+								</div>
+							</div>
+							<div class="form-group row">
+								<label for="inputTanggalLahir" class="col-sm-2 col-form-label">Tanggal Lahir</label>
+								<div class="col-sm-10">
+								<input type="date" name="tgl_lahir" class="form-control" id="inputTanggalLahir" placeholder="Tanggal Lahir" value="<?=$member->tgl_lahir?>">
+								</div>
+							</div>
+							<div class="form-group row">
+								<label for="inputAlamat" class="col-sm-2 col-form-label">Alamat</label>
+								<div class="col-sm-10">
+									<textarea class="form-control" id="inputAlamat" required name="alamat_lengkap"><?=$member->alamat_lengkap?></textarea>
+								</div>
+							</div>
+							<div class="form-group row">
+								<label for="Instansi" class="col-sm-2 col-form-label">Instansi</label>
+								<div class="col-sm-10">
+								<input type="text" required name="instansi" class="form-control" id="Instansi" placeholder="Instansi" value="<?=$member->instansi?>">
+								</div>
+							</div>
+							<div class="form-group row">
+								<label for="profesi" class="col-sm-2 col-form-label">Profesi</label>
+								<div class="col-sm-10">
+									<select name="profesi" type="text" class="form-control " required="" >
+										<option value=""> Pilih Profesi </option>
+										<option value="asn" <?php if($member->profesi == 'asn') { ?> selected="selected"<?php } ?>> ASN </option>
+										<option value="nonasn" <?php if($member->profesi == 'nonasn') { ?> selected="selected"<?php } ?>> Non ASN </option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group row">
+								<label for="fb" class="col-sm-2 col-form-label">Akun Facebook</label>
+								<div class="col-sm-10">
+								<input type="text" required name="fb" class="form-control" id="fb" placeholder="Akun Facebook" value="<?=$member->fb?>">
+								</div>
+							</div>
+							<div class="form-group row">
+								<label for="instagram" class="col-sm-2 col-form-label">Akun Instagram</label>
+								<div class="col-sm-10">
+								<input type="text" required name="instagram" class="form-control" id="instagram" placeholder="Akun Instagram" value="<?=$member->instagram?>">
+								</div>
+							</div>
+							<div class="form-group row">
+								<div class="offset-sm-2 col-sm-10">
+								<div class="checkbox">
+									<label>
+									<input type="checkbox"> I agree to the <a href="#">terms and conditions</a>
+									</label>
+								</div>
+								</div>
+							</div>
+							<div class="form-group row">
+								<div class="offset-sm-2 col-sm-10">
+								<button type="submit" class="btn btn-danger">Update Profile</button>
+								</div>
+							</div>
+							</form>
+						</div>
+						<!-- /.tab-pane -->
+						<div class="<?=$active == 'afiliasi' ? 'active' : ''?> tab-pane" id="afiliasi">
+	<!-- 			        <h2>Afiliasi</h2>
+							<hr/> -->
+							<!-- <br/> -->
+								<div class="card">
+									<div class="card-body">
+										<h5 class="font-italic text-warning">Ingin Mendapatkan Penghasilan tambahan ?<br/>Hanya dengan membagikan Informasi Event-event yang ada ke Rekan-rekan Anda..</h5>
+										<p class="text-justify">Affiliate adalah sebuah strategi marketing yang memungkinkan kita mendapatkan komisi atas kegiatan pemasaran yang kita lakukan. Kemudahan yang ditawarkan melalui Program Affiliate Marketing ini adalah kamu sebagai affiliate partner tidak memerlukan modal apa pun untuk menjalankan bisnis internet ini.<br/>Bisnis ini juga bisa dilakukan pada waktu senggang di sela-sela kesibukan kamu. Mendapatkan penghasilan yang mudah saat ini adalah dengan bergabung di Affiliate Program, dan lakukan bisnis tanpa modal dengan komisi yang besar</p>
+										<h5 class="font-italic text-warning">Cara Kerja Affiliate :</h5>
+										<ul>
+											<li>Mengaktifkan tombol dibawah</li>
+											<li>Membagikan Event-event yang ada ke WhatsApp atau Sosial media lainnya</li>
+											<li>Setiap orang yang mendaftarkan diri melalui Link Promosi Anda, akan otomatis tercatat dan anda dapat pantau</li>
+											<li>Penghitungan Bonus : Peserta Anda yang telah melakukan Pembayaran x Bonus</li>
+											<li>Ilustrasi : Peserta yang mendaftar melalui Link Affilitae anda sebanyak 250 orang, dan 200 orang telah menyelesaikan Pembayaran, maka Bonus Anda adalah 200 x Rp. 150.000 = Rp. 30.000.000,-</li>
+										</ul>
+										<?php if(is_null($member->ref)){ ?>
+										<div class="text-center">
+											<div class="h5 text-warning">Aktifkan Afiliasi Kamu</div>
+											<a onclick="return confirm('Are you sure?');" href="<?=base_url()?>page/act_ref" class="btn btn-success">Aktifkan Sekarang</a>
+										</div>
+											<?php }else{ ?>
+										<div class="text-center">
+											<div class="h5 text-warning">Afiliasi Kamu Telah Aktif</div>
+											<!-- <a onclick="return confirm('Are you sure?');" href="<?=base_url()?>page/act_ref" class="btn btn-success">Aktifkan Sekarang</a> -->
+										</div>
+										<div>
+										<form class="form-horizontal" method="post" action="./update_ref" class="jsform">
+											<div class="form-group row">
+											<label for="nik" class="col-sm-2 col-form-label">Kode Referensi</label>
+											<label for="nik" class="col-sm-10 col-form-label">: <?=$member->ref?></label>
+											<!-- <input type="hidden" name="nik" value="<?=$member->nik?>"> -->
+											</div>
+											<div class="form-group row">
+											<label for="" class="col-sm-2 col-form-label">Nama Bank</label>
+											<div class="col-sm-3">
+												<input type="text" required name="bank_rek_ref" class="form-control" id="inputName" placeholder="Contoh: BRI" value="<?=$member->bank_rek_ref?>">
+											</div>
+											<label for="" class="col-sm-2 col-form-label">No. Rekening</label>
+											<div class="col-sm-5">
+												<input type="number" required name="no_rek_ref" class="form-control" id="inputName" placeholder="No. Rekening" value="<?=$member->no_rek_ref?>">
+											</div>
+											</div>
+											<div class="form-group row">
+											<label for="inputEmail" class="col-sm-2 col-form-label">A/N Rekening</label>
+											<div class="col-sm-10">
+												<input type="text" required name="an_rek_ref" class="form-control" id="inputEmail" placeholder="A/N Pemilik Rekening" value="<?=$member->an_rek_ref?>">
+												<span><i><small class="text-warning">(Perubahan Email membutuhkan bantuan panitia, karena akan berdampak kepada data event Anda)</small></i></span>
+											</div>
+											</div>
+											<div class="text-center">
+												<button type="submit" class="btn btn-danger">Simpan</button>
+												<a href="<?=base_url()?>page/afiliasi" class="btn btn-success">Lihat Bonus</a>
+											</div>
+										</form>
+									</div>
+										<?php } ?>
+									</div>
+								</div>
+						</div>
+						
+							<!-- dokumentasi -->
+						<div class="tab-pane dokumentasi" id="dokumentasi">
+							<h5 class="pb-2 font-italic border-bottom">
+								Dokumentasi 
+								<small><a class="badge badge-primary ml-2 gotoback" onclick="goToBack()" style="display:none;"><i class="fa fa-arrow-left"></i> Go To Back</a></small>
 							</h5>
 							<div class="row dokumentasi-kegiatan" id="dokumentasi-kegiatan" >
 																
 							</div>
-	                  </div>
+						</div>
+						<div class="tab-pane kodevoucher" id="kodevoucher">
+							<h5 class="pb-2 font-italic border-bottom">Kode Voucher Kamu</h5>
+							<div class="row kodevoucher" id="kodevoucher" >
+								<table class="table table-striped table-sm" id="listkodevaoucher">
+									<thead>
+										<tr>
+											<th>No</th>
+											<th>Nama Event</th>
+											<th>Kode Voucher</th>
+										</tr>
+									</thead>
+									<tbody class="table-kodevoucher">
+										
+									</tbody>
+
+								</table>						
+							</div>
+						</div>
 
 	                </div>
 	                <!-- /.tab-content -->
@@ -602,6 +620,24 @@ $user = $this->ion_auth->user()->row();
             }
         })
     });
+
+	load_kodevoucher();
+	function load_kodevoucher(){
+		var email = '<?php echo $user->email; ?>';
+		$.ajax({
+			url:"<?=base_url()?>page/getKodeVoucher",    //the page containing php script
+			type: "post",    //request type,
+			dataType: 'json',
+			data: {email:email},
+			success:function(result){
+				console.log(result);
+				$('.table-kodevoucher').html(result);
+			}
+		});
+
+	}
+
+
   </script>
 
 <script src="<?=base_url()?>assets/adminlte/plugins/datatables/jquery.dataTables.min.js"></script>

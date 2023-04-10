@@ -1048,5 +1048,60 @@ class Page extends CI_Controller {
 		echo json_encode($dataresponse);
 
 	}
+
+	public function getKodeVoucher(){
+		// $email = 'saipulanwar@gmail.com';
+		$email = $this->input->post('email');
+		$data = ['email' => $email];
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+		//   CURLOPT_URL => 'https://event.lpkn.id/api/member/Event/get_kodevoucher',
+		  CURLOPT_URL => 'http://localhost:81/event.lpkn.id/api/member/Event/get_kodevoucher',
+		  CURLOPT_RETURNTRANSFER => true,
+		  CURLOPT_ENCODING => '',
+		  CURLOPT_MAXREDIRS => 10,
+		  CURLOPT_TIMEOUT => 0,
+		  CURLOPT_FOLLOWLOCATION => true,
+		  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+		  CURLOPT_CUSTOMREQUEST => 'POST',
+		  CURLOPT_POSTFIELDS => $data,
+		  CURLOPT_HTTPHEADER => array(
+		    'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6ImFkbWluaXN0cmF0b3IiLCJ1c2VyX2dyb3VwIjoiYWRtaW4iLCJpYXQiOjE2NTg4MzQzMzN9.dhoLWPcm4cpXOUouX4GEMFrQBmIz5-RRaMACMUW0wxs',
+		    'Cookie: ci_session=e40e0d7d948983435b6949a4df8efbfaf2238c4b'
+		  ),
+		));
+		$response = curl_exec($curl);
+		curl_close($curl);
+
+		$result = json_decode($response, TRUE);
+
+		$dataresponse ='';
+		$html = '';
+
+		if($result['status'] == 'sukses' ){
+			if($result['lists'] !=''){	
+				$no = 1;
+				foreach($result['lists'] as $list){
+					$html .= '
+						<tr>
+							<td>'.$no++.'</td>
+							<td>'.$list['judul'].'</td>
+							<td>'.$list['kode_vocher'].'</td>
+						</tr>
+					';
+				}
+			}else{
+				$html = 'Kode Voucher tidak ditemukan';
+			}
+			$dataresponse = $html;
+
+		}else{
+			$dataresponse = 'Kode Voucher tidak ditemukan';
+		}
+		
+
+		echo json_encode($dataresponse);
+
+	}
     
 }
