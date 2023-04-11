@@ -1103,5 +1103,87 @@ class Page extends CI_Controller {
 		echo json_encode($dataresponse);
 
 	}
+
+	public function peraturan()
+    {
+		$this->load->view('landing/layout/header');
+		$this->load->view('landing/page/peraturan');
+		$this->load->view('landing/layout/footer');
+    }
+
+	public function video()
+    {
+		$this->load->view('landing/layout/header');
+		$this->load->view('landing/page/download_video');
+		$this->load->view('landing/layout/footer');
+    }
+
+	public function download_peraturan(){
+		$param = $this->input->post('param');
+		// $url_link = 'https://lpkn.id/api/download/json_pasal';
+		$url_link = 'http://localhost:81/lpkn.id/api/download/json_pasal';
+
+		$data = ['param' => $param];
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+		  CURLOPT_URL => $url_link,
+		  CURLOPT_RETURNTRANSFER => true,
+		  CURLOPT_ENCODING => '',
+		  CURLOPT_MAXREDIRS => 10,
+		  CURLOPT_TIMEOUT => 0,
+		  CURLOPT_FOLLOWLOCATION => true,
+		  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+		  CURLOPT_CUSTOMREQUEST => 'POST',
+		  CURLOPT_POSTFIELDS => $data,
+		  CURLOPT_HTTPHEADER => array(
+		    'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6ImFkbWluaXN0cmF0b3IiLCJ1c2VyX2dyb3VwIjoiYWRtaW4iLCJpYXQiOjE2NTg4MzQzMzN9.dhoLWPcm4cpXOUouX4GEMFrQBmIz5-RRaMACMUW0wxs',
+		    'Cookie: ci_session=e40e0d7d948983435b6949a4df8efbfaf2238c4b'
+		  ),
+		));
+		$response = curl_exec($curl);
+		curl_close($curl);
+
+		$result = json_decode($response, TRUE);
+		$results = $result['peraturans'];
+		echo $results;
+	}
+
+	public function download_video(){
+		$user = $this->ion_auth->user()->row();
+		$param = $this->input->post('param');
+		// $url_link = 'https://sertifikat.diklatonline.id/api/Member/get_video_dan_materi';
+		$url_link = 'http://localhost:81/sertifikat/api/Member/get_video_dan_materi';
+
+		$data = ['param' => $param, 'email'=>$user->email];
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+		  CURLOPT_URL => $url_link,
+		  CURLOPT_RETURNTRANSFER => true,
+		  CURLOPT_ENCODING => '',
+		  CURLOPT_MAXREDIRS => 10,
+		  CURLOPT_TIMEOUT => 0,
+		  CURLOPT_FOLLOWLOCATION => true,
+		  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+		  CURLOPT_CUSTOMREQUEST => 'POST',
+		  CURLOPT_POSTFIELDS => $data,
+		  CURLOPT_HTTPHEADER => array(
+		    'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6ImFkbWluaXN0cmF0b3IiLCJ1c2VyX2dyb3VwIjoiYWRtaW4iLCJpYXQiOjE2NTg4MzQzMzN9.dhoLWPcm4cpXOUouX4GEMFrQBmIz5-RRaMACMUW0wxs',
+		    'Cookie: ci_session=e40e0d7d948983435b6949a4df8efbfaf2238c4b'
+		  ),
+		));
+		
+		$response = curl_exec($curl);
+		curl_close($curl);
+
+		$result = json_decode($response, TRUE);
+
+		if(!empty($result['downloads'])){
+			$dataresponse = $result['downloads'];
+		}else{
+			$dataresponse = 'Data tidak ditemukan';
+		}
+
+		echo json_encode($dataresponse);
+	}
     
 }

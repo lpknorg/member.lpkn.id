@@ -81,7 +81,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <li class="nav-item">
             <a href="<?=base_url()?>page/allvideo" class="nav-link">Video</a>
           </li>
+          <div class="dropdown show">
+            <a class="nav-link  dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Dropdown 
+            </a>
 
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+              <a href="<?=base_url()?>page/peraturan" class="dropdown-item download-peraturan" >Peraturan</a>
+              <a href="<?=base_url()?>page/video" target="blank_" class="dropdown-item download-video" >Video</a>
+            </div>
+          </div>
+          </li>
         </ul>
 
         <!-- SEARCH FORM 
@@ -220,3 +230,4 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
+
