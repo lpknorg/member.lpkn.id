@@ -27,6 +27,9 @@ $root = "http://".$_SERVER['HTTP_HOST'];
 $root .= dirname($_SERVER['SCRIPT_NAME']);
 $config['base_url'] = $root;
 // $config['base_url'] = '';
+// $config['url_api_event'] = "https://event.lpkn.id/api/";
+$config['url_api_event'] = "http://localhost/event.lpkn.id/api/";
+$config['url_api_sertifikat'] = "http://localhost/sertifikat.diklatonline.id/api/";
 
 /*
 |--------------------------------------------------------------------------

@@ -1,5 +1,10 @@
 <h1>Add Permission</h1>
 
+<style>
+    a{
+        color: #80df20;
+    }
+</style>
 <div id="infoMessage"><?php echo $message;?></div>
 
 <?php echo form_open();?>

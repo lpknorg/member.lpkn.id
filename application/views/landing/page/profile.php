@@ -269,7 +269,18 @@ $user = $this->ion_auth->user()->row();
 					                    <td><?=$no++?></td>
 					                    <td><?=$list['judul']?></td>
 					                    <td>
-							        					<a class="btn btn-success btn-sm" target="blank_" href="<?=$list['download']?>">Download</a>
+					                    	<?php if(is_null($list['testimoni'])){ ?>
+					                    	<form method="POST" action="<?=$this->config->item('url_api_sertifikat').'member/testimoni_peserta/'.$list['sertifikat_id']?>" id="formTestimoni">
+					                    		<textarea class="form-control" rows="3" placeholder="Masukkan testimoni anda" name="testimoni" required></textarea>
+							        			<button type="submit" class="btn btn-success btn-sm mt-1">Kirim</button> <br>
+								        			<span class="text-warning" style="font-size: 13px;">* download sertifikat dapat dilakukan setelah mengirim testimoni
+								        			</span>
+					                    	</form>	
+					                    	<?php } else if($list['testimoni'] && $list['testimoni_status'] == 0){ ?>
+					                    	<a class="btn btn-success btn-sm disabled" disabled>Download</a>	
+					                    	<?php }else{ ?>
+					                    	<a class="btn btn-success btn-sm" target="blank_" href="<?=$list['download']?>">Download</a>
+					                    	<?php } ?>
 					                    </td>
 					                  </tr>
 							        		<?php }?>
@@ -474,7 +485,32 @@ $user = $this->ion_auth->user()->row();
 </div>
 
   <script>
-  	// alert($(location).attr('href'));
+  	// alert($(location).attr('href'));  	
+  	$('#formTestimoni').submit(function(e) {
+            e.preventDefault();
+
+            $.ajax({
+                type: 'post',
+                url: $(this).attr("action"),
+                data: $(this).serialize(),
+                beforeSend: function() {
+                    // sendAjax('#btnSimpan', false)
+                },
+                success: function(data) {
+                	if (data == 'kosong') {
+                		alert('Testimoni masih kosong.')
+                	}else{
+                		location.reload()
+                	}                    
+                },
+                error: function(data) {
+                	console.log(data)                    
+                },
+                complete: function() {
+                    console.log('selese')
+                }
+            });
+        });
     $('#foto_form').on('submit', function(e){
         e.preventDefault();
         var data = new FormData(this);

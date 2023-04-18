@@ -56,6 +56,8 @@ class Page extends CI_Controller {
         		'jum_event' => json_decode($jum_event, TRUE), 
         		'jum_sertif' => json_decode($jum_sertif, TRUE), 
         	);
+            // var_dump($list_sertif);
+            // die;
 			$this->load->view('landing/layout/header');
 			$this->load->view('landing/page/profile',$data);
 			$this->load->view('landing/layout/footer');
@@ -546,7 +548,7 @@ class Page extends CI_Controller {
     {
 		$curl = curl_init();
 		curl_setopt_array($curl, array(
-		  CURLOPT_URL => 'https://event.lpkn.id/api/member/event/event_detail_new',
+		  CURLOPT_URL => $this->config->item('url_api_event').'member/event/event_detail_new',
 		  CURLOPT_RETURNTRANSFER => true,
 		  CURLOPT_ENCODING => '',
 		  CURLOPT_MAXREDIRS => 10,
@@ -567,7 +569,7 @@ class Page extends CI_Controller {
     {
 		$curl = curl_init();
 		curl_setopt_array($curl, array(
-		  CURLOPT_URL => 'https://event.lpkn.id/api/member/event/event_detail',
+		  CURLOPT_URL => $this->config->item('url_api_event').'member/event/event_detail',
 		  CURLOPT_RETURNTRANSFER => true,
 		  CURLOPT_ENCODING => '',
 		  CURLOPT_MAXREDIRS => 10,
@@ -589,7 +591,7 @@ class Page extends CI_Controller {
     {
 		$curl = curl_init();
 		curl_setopt_array($curl, array(
-		  CURLOPT_URL => 'https://event.lpkn.id/api/member/event',
+		  CURLOPT_URL => $this->config->item('url_api_event').'member/event',
 		  CURLOPT_RETURNTRANSFER => true,
 		  CURLOPT_ENCODING => '',
 		  CURLOPT_MAXREDIRS => 10,
@@ -610,7 +612,7 @@ class Page extends CI_Controller {
     {
 		$curl = curl_init();
 		curl_setopt_array($curl, array(
-		  CURLOPT_URL => 'https://event.lpkn.id/api/member/event/home_event',
+		  CURLOPT_URL => $this->config->item('url_api_event').'member/event/home_event',
 		  CURLOPT_RETURNTRANSFER => true,
 		  CURLOPT_ENCODING => '',
 		  CURLOPT_MAXREDIRS => 10,
@@ -631,7 +633,7 @@ class Page extends CI_Controller {
     {
 		$curl = curl_init();
 		curl_setopt_array($curl, array(
-		  CURLOPT_URL => 'https://event.lpkn.id/api/member/event/event_page?page='.$page,
+		  CURLOPT_URL => $this->config->item('url_api_event').'member/event/event_page?page='.$page,
 		  CURLOPT_RETURNTRANSFER => true,
 		  CURLOPT_ENCODING => '',
 		  CURLOPT_MAXREDIRS => 10,
@@ -652,7 +654,7 @@ class Page extends CI_Controller {
     {
 		$curl = curl_init();
 		curl_setopt_array($curl, array(
-		  CURLOPT_URL => 'https://event.lpkn.id/api/member/event/count_event',
+		  CURLOPT_URL => $this->config->item('url_api_event').'member/event/count_event',
 		  CURLOPT_RETURNTRANSFER => true,
 		  CURLOPT_ENCODING => '',
 		  CURLOPT_MAXREDIRS => 10,
@@ -674,7 +676,7 @@ class Page extends CI_Controller {
     {
 		$curl = curl_init();
 		curl_setopt_array($curl, array(
-		  CURLOPT_URL => 'https://event.lpkn.id/api/member/event/waiting',
+		  CURLOPT_URL => $this->config->item('url_api_event').'member/event/waiting',
 		  CURLOPT_RETURNTRANSFER => true,
 		  CURLOPT_ENCODING => '',
 		  CURLOPT_MAXREDIRS => 10,
@@ -696,7 +698,7 @@ class Page extends CI_Controller {
     {
 		$curl = curl_init();
 		curl_setopt_array($curl, array(
-		  CURLOPT_URL => 'https://event.lpkn.id/api/member/event/my_event',
+		  CURLOPT_URL => $this->config->item('url_api_event').'member/event/my_event',
 		  CURLOPT_RETURNTRANSFER => true,
 		  CURLOPT_ENCODING => '',
 		  CURLOPT_MAXREDIRS => 10,
@@ -717,7 +719,7 @@ class Page extends CI_Controller {
 	{
 		$curl = curl_init();
 		curl_setopt_array($curl, array(
-		  CURLOPT_URL => 'https://sertifikat.diklatonline.id/api/member/count_sertif',
+		  CURLOPT_URL => $this->config->item('url_api_sertifikat').'/member/count_sertif',
 		  CURLOPT_RETURNTRANSFER => true,
 		  CURLOPT_ENCODING => '',
 		  CURLOPT_MAXREDIRS => 10,
@@ -739,7 +741,7 @@ class Page extends CI_Controller {
 	{
 		$curl = curl_init();
 		curl_setopt_array($curl, array(
-		  CURLOPT_URL => 'https://sertifikat.diklatonline.id/api/member/list_sertif',
+		  CURLOPT_URL => $this->config->item('url_api_sertifikat').'/member/list_sertif',
 		  CURLOPT_RETURNTRANSFER => true,
 		  CURLOPT_ENCODING => '',
 		  CURLOPT_MAXREDIRS => 10,
@@ -761,7 +763,7 @@ class Page extends CI_Controller {
 	{
 		$curl = curl_init();
 		curl_setopt_array($curl, array(
-		  CURLOPT_URL => 'https://event.lpkn.id/api/member/action/regis_event',
+		  CURLOPT_URL => $this->config->item('url_api_event').'member/action/regis_event',
 		  CURLOPT_RETURNTRANSFER => true,
 		  CURLOPT_ENCODING => '',
 		  CURLOPT_MAXREDIRS => 10,
@@ -785,7 +787,7 @@ class Page extends CI_Controller {
 		$curl = curl_init();
 
 		curl_setopt_array($curl, array(
-		  CURLOPT_URL => 'https://event.lpkn.id/api/member/action/upload_bukti',
+		  CURLOPT_URL => $this->config->item('url_api_event').'member/action/upload_bukti',
 		  CURLOPT_RETURNTRANSFER => true,
 		  CURLOPT_ENCODING => '',
 		  CURLOPT_MAXREDIRS => 10,
@@ -811,7 +813,7 @@ class Page extends CI_Controller {
     {
 		$curl = curl_init();
 		curl_setopt_array($curl, array(
-		  CURLOPT_URL => 'https://event.lpkn.id/api/member/event/ref/'.$ref,
+		  CURLOPT_URL => $this->config->item('url_api_event').'member/event/ref/'.$ref,
 		  CURLOPT_RETURNTRANSFER => true,
 		  CURLOPT_ENCODING => '',
 		  CURLOPT_MAXREDIRS => 10,
@@ -832,7 +834,7 @@ class Page extends CI_Controller {
     {
 		$curl = curl_init();
 		curl_setopt_array($curl, array(
-		  CURLOPT_URL => 'https://event.lpkn.id/api/member/event/ref_pay/'.$ref,
+		  CURLOPT_URL => $this->config->item('url_api_event').'member/event/ref_pay/'.$ref,
 		  CURLOPT_RETURNTRANSFER => true,
 		  CURLOPT_ENCODING => '',
 		  CURLOPT_MAXREDIRS => 10,
@@ -853,7 +855,7 @@ class Page extends CI_Controller {
     {
 		$curl = curl_init();
 		curl_setopt_array($curl, array(
-		  CURLOPT_URL => 'https://event.lpkn.id/api/member/event/bonus/'.$ref,
+		  CURLOPT_URL => $this->config->item('url_api_event').'member/event/bonus/'.$ref,
 		  CURLOPT_RETURNTRANSFER => true,
 		  CURLOPT_ENCODING => '',
 		  CURLOPT_MAXREDIRS => 10,
@@ -874,7 +876,7 @@ class Page extends CI_Controller {
     {
 		$curl = curl_init();
 		curl_setopt_array($curl, array(
-		  CURLOPT_URL => 'https://event.lpkn.id/api/member/action/addsaldo',
+		  CURLOPT_URL => $this->config->item('url_api_event').'member/action/addsaldo',
 		  CURLOPT_RETURNTRANSFER => true,
 		  CURLOPT_ENCODING => '',
 		  CURLOPT_MAXREDIRS => 10,
@@ -897,7 +899,7 @@ class Page extends CI_Controller {
     {
 		$curl = curl_init();
 		curl_setopt_array($curl, array(
-		  CURLOPT_URL => 'https://event.lpkn.id/api/member/action/update_ref',
+		  CURLOPT_URL => $this->config->item('url_api_event').'member/action/update_ref',
 		  CURLOPT_RETURNTRANSFER => true,
 		  CURLOPT_ENCODING => '',
 		  CURLOPT_MAXREDIRS => 10,
