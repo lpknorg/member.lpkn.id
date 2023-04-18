@@ -7,7 +7,7 @@ class Profile_model extends CI_Model
 {
     function get_member($nik)
     {
-        $this->db->select('nik, u.email, phone AS no_hp, nama_lengkap, alamat_lengkap, tempat_lahir, tgl_lahir, instansi, ref, bank_rek_ref, no_rek_ref, an_rek_ref, pp, create_date');
+        $this->db->select('nik, u.email, phone AS no_hp, nama_lengkap, alamat_lengkap, tempat_lahir, tgl_lahir, instansi, fb, instagram, profesi, ref, bank_rek_ref, no_rek_ref, an_rek_ref, pp, create_date');
         $this->db->from('member m');
         $this->db->join('users u', 'm.nik = u.username', 'left');
         $this->db->where('nik', $nik);
