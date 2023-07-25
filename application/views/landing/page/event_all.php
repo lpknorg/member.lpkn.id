@@ -81,6 +81,18 @@
           display: none;
         }
       }
+
+      .has-search .form-control-feedback {
+          position: absolute;
+          z-index: 2;
+          display: block;
+          width: 2.375rem;
+          height: 2.375rem;
+          line-height: 2.375rem;
+          text-align: center;
+          pointer-events: none;
+          color: #aaa;
+      }
     </style>
       <div class="modal fade" id="modal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document" id="video_">
@@ -93,38 +105,64 @@
         <main class="container">
           <div class="row">
             <div class="col-md-8 blog-main mt-2 mb-5">
-              <h5 class="pb-4 mb-4 font-italic border-bottom">
-                Semua Event <small><a class="badge badge-primary" href="<?=base_url()?>">Kembali Ke Beranda</a></small>
-              </h5>
+                <div class="row mb-2">
+                  <div class="col-sm-6">
+                    <h5 class="pb-4 mb-4 font-italic border-bottom">
+                        Semua Event <small><a class="badge badge-primary" href="<?=base_url()?>">Kembali Ke Beranda</a></small>
+                      </h5>
+                  </div><!-- /.col -->
+                  <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                      <li class="breadcrumb-item">
+                        <form class="form-inline ml-0 ml-md-3">
+                          <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Search event" id="search-keyword" >
+                            <div class="input-group-append">
+                              <button class="btn btn-secondary" type="button" id="serch_event">
+                                <i class="fa fa-search"></i>
+                              </button>
+                            </div>
+                          </div>
+                        </form>
+                      </li>
+                    </ol>
+                  </div><!-- /.col -->
+                </div>
+              
+
+              
 
               <div class="blog-post">
-                <h2 class="blog-post-title">Total Event : <?=$event->count?></h2>
-                <div class="row">
+                <h2 class="blog-post-title">Total Event : <?= (isset($event->count)) ? $event->count : ''?></h2>
+                <div class="row" id="content-event">
                   <!-- <div class="grid" style="padding: 0em 0 1em;"> -->
                     <?php
+                      if(!empty($event)){
                       foreach ($event->event as $row) {
                     ?>
-                    <div class="col-lg-4 col-6 card-wrapper-special">
-                      <div class="card card-special img__wrap">
-                        <img class="card-img-top card-img-top-special" src="<?=$row->brosur_img?>" alt="Card image cap">
-                        <div class="img__description_layer">
-                          <p style="padding: 6px">
-                            <button type="button" onclick="get_event('<?=$row->slug?>');" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">
-                              Selengkapnya
-                            </button>
-                          </p>
+                      <div class="col-lg-4 col-6 card-wrapper-special">
+                        <div class="card card-special img__wrap">
+                          <img class="card-img-top card-img-top-special" src="<?=$row->brosur_img?>" alt="Card image cap">
+                          <div class="img__description_layer">
+                            <p style="padding: 6px">
+                              <button type="button" onclick="get_event('<?=$row->slug?>');" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">
+                                Selengkapnya
+                              </button>
+                            </p>
+                          </div>
                         </div>
-                      </div>
-                    </div>   
+                      </div>   
                     <?php
+                        }
                       }
                     ?>
                   <!-- </div> -->
                 </div>
 
               </div><!-- /.blog-post -->
-
-              <?=$pagination?>
+               <div id='pagination'>
+                  <?=$pagination?>
+               </div>
 
             </div><!-- /.blog-main -->
 
@@ -135,3 +173,60 @@
       </div>
     </div>
 <link href="<?=base_url()?>assets/vendors/offcanvas/tworows.css" rel="stylesheet">
+<script type="text/javascript">
+  $(document).ready(function(){
+      $("#serch_event").on("click", function() {
+        var keyword = $("#search-keyword").val();
+      $("#content-event").html('')
+      $("#pagination").html('')
+
+        getevent(keyword);
+
+      });
+  })
+
+function getevent(keyword) 
+{ 
+  $.ajax({
+        type: "GET", 
+        url: '<?php echo base_url('page/search_event'); ?>', 
+        data: {keyword : keyword},
+        success: function (response) {
+          response = JSON.parse(response);
+          // $('#pagination').html(response.pagination);
+          var html = '';
+
+            $.each(response.event, function(key,value) {
+              console.log(value)
+              html += '<div class="col-lg-4 col-6 card-wrapper-special">'+
+                        '<div class="card card-special img__wrap">'+
+                          '<img class="card-img-top card-img-top-special" src="'+value.brosur_img+'" alt="Card image cap">'+
+                          '<div class="img__description_layer">'+
+                            '<p style="padding: 6px">'+
+                              '<button type="button" onclick="get_event("'+value.slug+'");" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">Selengkapnya'+
+                                
+                              '</button>'+
+                            '</p>'+
+                          '</div>'+
+                        '</div>'+
+                      '</div>  '+
+                      '<div class="col-lg-4 col-6 card-wrapper-special">'+
+                        '<div class="card card-special img__wrap">'+
+                          '<img class="card-img-top card-img-top-special" src="'+value.brosur_img+'" alt="Card image cap">'+
+                          '<div class="img__description_layer">'+
+                            '<p style="padding: 6px">'+
+                              '<button type="button" onclick="get_event("'+value.slug+'");" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">Selengkapnya'+
+                              '</button>'+
+                            '</p>'+
+                          '</div>'+
+                        '</div>'+
+                      '</div>';
+
+                  });
+
+          $('#content-event').html(html);
+        },
+    });
+}
+
+</script>

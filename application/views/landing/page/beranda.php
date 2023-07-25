@@ -135,23 +135,28 @@
         </div><!-- /.row -->
         <div class="row">
           <?php 
+          if(!empty($home_event)){
             foreach ($home_event['event'] as $row) {
           ?>
-          <div class="col-lg-3 col-6 card-wrapper-special">
-            <div class="card card-special img__wrap">
-              <img class="card-img-top card-img-top-special" src="<?=$row['brosur_img']?>" alt="Card image cap">
-              <div class="img__description_layer">
-                <p style="padding: 6px">
-                  <!-- PENGADAAN BARANG/JASA PEMERINTAH (PBJP) LEVEL - 1<br>(48 JP, Model Pembelajaran Blended Learning)<br> -->
-                  <!-- <a class="btn btn-primary btn-sm" target="blank_" href="<?=$row['link']?>">Selengkapnya</a> -->
-                  <button type="button" onclick="get_event('<?=$row['slug']?>');" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">
-                    Selengkapnya
-                  </button>
-                </p>
+            <div class="col-lg-3 col-6 card-wrapper-special">
+              <div class="card card-special img__wrap">
+                <img class="card-img-top card-img-top-special" src="<?=$row['brosur_img']?>" alt="Card image cap">
+                <div class="img__description_layer">
+                  <p style="padding: 6px">
+                    <!-- PENGADAAN BARANG/JASA PEMERINTAH (PBJP) LEVEL - 1<br>(48 JP, Model Pembelajaran Blended Learning)<br> -->
+                    <!-- <a class="btn btn-primary btn-sm" target="blank_" href="<?=$row['link']?>">Selengkapnya</a> -->
+                    <button type="button" onclick="get_event('<?=$row['slug']?>');" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">
+                      Selengkapnya
+                    </button>
+                  </p>
+                </div>
               </div>
-            </div>
-          </div>   
-          <?php } ?>              
+            </div>   
+          <?php 
+            } 
+
+          } 
+        ?>              
         </div>
 
       </div><!-- /.container-fluid -->

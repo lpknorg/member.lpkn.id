@@ -81,7 +81,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <li class="nav-item">
             <a href="<?=base_url()?>page/allvideo" class="nav-link">Video</a>
           </li>
-          <div class="dropdown show">
+          <li class="nav-item">
+            <a href="<?=base_url()?>page/peraturan" class="nav-link">Peraturan</a>
+          </li>
+          <!-- <div class="dropdown show">
             <a class="nav-link  dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               Dropdown 
             </a>
@@ -90,8 +93,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <a href="<?=base_url()?>page/peraturan" class="dropdown-item download-peraturan" >Peraturan</a>
               <a href="<?=base_url()?>page/video" target="blank_" class="dropdown-item download-video" >Video</a>
             </div>
-          </div>
-          </li>
+          </div> -->
+          <!-- </li> -->
         </ul>
 
         <!-- SEARCH FORM 
@@ -123,7 +126,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               width: inherit;
               object-fit: cover;
               border-radius: 50%;
-              height: 35px;
+              height: 32px;
             }
           </style>
       <!-- Right navbar links -->
@@ -164,7 +167,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <a href="<?=base_url()?>page/profile" class="dropdown-item">
               <i class="fas fa-user mr-2"></i> Profile
             </a>
-            <?php if(!is_null($member->ref)){ ?>
+            <?php if(!empty($member) && !is_null($member->ref)){ ?>
               <a href="<?=base_url()?>page/afiliasi" class="dropdown-item">
                 <i class="fas fa-share-alt mr-2"></i> Afiliasi
               </a>

@@ -46,6 +46,30 @@ class Page extends CI_Controller {
         	$jum_event = $this->countEvent($user->email);
         	$jum_sertif = $this->getCountSertif($user->email);
         	$list_sertif = $this->getListSertif($user->email);
+
+        	$decodemy_event = (json_decode($my_event, TRUE));
+
+        	$detailevent = [];
+        	foreach($decodemy_event['event'] as $myevent){
+	    		$datapost = array('slug' => $myevent['slug'], 'email' => $user->email );
+	    		$event = json_decode($this->detailEvent($datapost));
+
+                $datevoucher = $event->eventregis->create_date;
+                $dv = $this->expld($datevoucher);
+                if(date("Y") == $dv[0]){
+            		$detailevent[] = array(
+            			'judul' => $event->event->judul,
+            			'kdvcr' => $event->eventregis->kode_vocher,                  
+                        'create_date' => $event->eventregis->create_date,                  
+            		);
+                }else{
+                    $detailevent = [];
+                }
+
+        	}
+
+            $propinsi = $this->db->query('select * from propinsi')->result(); 
+            $kota = $this->db->query('select * from kota')->result(); 
         	$data = array(
         		'active' => $active,
         		'member' => $member,
@@ -55,9 +79,10 @@ class Page extends CI_Controller {
         		'my_event' => json_decode($my_event, TRUE), 
         		'jum_event' => json_decode($jum_event, TRUE), 
         		'jum_sertif' => json_decode($jum_sertif, TRUE), 
+        		'detailevent' => $detailevent, 
+                'propinsi' => $propinsi, 
+                'kota' => $kota, 
         	);
-            // var_dump($list_sertif);
-            // die;
 			$this->load->view('landing/layout/header');
 			$this->load->view('landing/page/profile',$data);
 			$this->load->view('landing/layout/footer');
@@ -179,8 +204,10 @@ class Page extends CI_Controller {
         		'tempat_lahir' => $this->input->post('tempat_lahir'), 
         		'tgl_lahir' => $this->input->post('tgl_lahir'), 
         		'instansi' => $this->input->post('instansi'), 
+        		// tambahan
+        		'profesi' => $this->input->post('profesi'), 
         		'fb' => $this->input->post('fb'), 
-        		'instagram' => $this->input->post('instagram'), 
+        		'instagram' => $this->input->post('instagram'),
         	);
         	$data_user = array(
         		'first_name' => $this->input->post('nama_lengkap'), 
@@ -350,7 +377,7 @@ class Page extends CI_Controller {
 		$this->load->library('pagination');
     	$event = json_decode($this->getEventAll($page));
 		$config['base_url'] = base_url().'page/allevent';
-		$config['total_rows'] = $event->count;
+		$config['total_rows'] = (isset($event->count)) ? $event->count : 0;
 		$config['per_page'] = 9;
 		// $config['use_page_numbers'] = true;
 
@@ -550,7 +577,7 @@ class Page extends CI_Controller {
     {
 		$curl = curl_init();
 		curl_setopt_array($curl, array(
-		  CURLOPT_URL => $this->config->item('url_api_event').'member/event/event_detail_new',
+		  CURLOPT_URL => 'https://event.lpkn.id/api/member/event/event_detail_new',
 		  CURLOPT_RETURNTRANSFER => true,
 		  CURLOPT_ENCODING => '',
 		  CURLOPT_MAXREDIRS => 10,
@@ -566,12 +593,13 @@ class Page extends CI_Controller {
 		$response = curl_exec($curl);
 		curl_close($curl);
 		return $response;
-    }    
+    }  
+
 	private function detailEvent($datapost)
     {
 		$curl = curl_init();
 		curl_setopt_array($curl, array(
-		  CURLOPT_URL => $this->config->item('url_api_event').'member/event/event_detail',
+		  CURLOPT_URL => 'https://event.lpkn.id/api/member/event/event_detail',
 		  CURLOPT_RETURNTRANSFER => true,
 		  CURLOPT_ENCODING => '',
 		  CURLOPT_MAXREDIRS => 10,
@@ -593,7 +621,7 @@ class Page extends CI_Controller {
     {
 		$curl = curl_init();
 		curl_setopt_array($curl, array(
-		  CURLOPT_URL => $this->config->item('url_api_event').'member/event',
+		  CURLOPT_URL => 'https://event.lpkn.id/api/member/event',
 		  CURLOPT_RETURNTRANSFER => true,
 		  CURLOPT_ENCODING => '',
 		  CURLOPT_MAXREDIRS => 10,
@@ -614,7 +642,7 @@ class Page extends CI_Controller {
     {
 		$curl = curl_init();
 		curl_setopt_array($curl, array(
-		  CURLOPT_URL => $this->config->item('url_api_event').'member/event/home_event',
+		  CURLOPT_URL => 'https://event.lpkn.id/api/member/event/home_event',
 		  CURLOPT_RETURNTRANSFER => true,
 		  CURLOPT_ENCODING => '',
 		  CURLOPT_MAXREDIRS => 10,
@@ -635,7 +663,7 @@ class Page extends CI_Controller {
     {
 		$curl = curl_init();
 		curl_setopt_array($curl, array(
-		  CURLOPT_URL => $this->config->item('url_api_event').'member/event/event_page?page='.$page,
+		  CURLOPT_URL => 'https://event.lpkn.id/api/member/event/event_page?page='.$page,
 		  CURLOPT_RETURNTRANSFER => true,
 		  CURLOPT_ENCODING => '',
 		  CURLOPT_MAXREDIRS => 10,
@@ -656,7 +684,7 @@ class Page extends CI_Controller {
     {
 		$curl = curl_init();
 		curl_setopt_array($curl, array(
-		  CURLOPT_URL => $this->config->item('url_api_event').'member/event/count_event',
+		  CURLOPT_URL => 'https://event.lpkn.id/api/member/event/count_event',
 		  CURLOPT_RETURNTRANSFER => true,
 		  CURLOPT_ENCODING => '',
 		  CURLOPT_MAXREDIRS => 10,
@@ -678,7 +706,7 @@ class Page extends CI_Controller {
     {
 		$curl = curl_init();
 		curl_setopt_array($curl, array(
-		  CURLOPT_URL => $this->config->item('url_api_event').'member/event/waiting',
+		  CURLOPT_URL => 'https://event.lpkn.id/api/member/event/waiting',
 		  CURLOPT_RETURNTRANSFER => true,
 		  CURLOPT_ENCODING => '',
 		  CURLOPT_MAXREDIRS => 10,
@@ -700,7 +728,7 @@ class Page extends CI_Controller {
     {
 		$curl = curl_init();
 		curl_setopt_array($curl, array(
-		  CURLOPT_URL => $this->config->item('url_api_event').'member/event/my_event',
+		  CURLOPT_URL => 'https://event.lpkn.id/api/member/event/my_event',
 		  CURLOPT_RETURNTRANSFER => true,
 		  CURLOPT_ENCODING => '',
 		  CURLOPT_MAXREDIRS => 10,
@@ -721,7 +749,7 @@ class Page extends CI_Controller {
 	{
 		$curl = curl_init();
 		curl_setopt_array($curl, array(
-		  CURLOPT_URL => $this->config->item('url_api_sertifikat').'/member/count_sertif',
+		  CURLOPT_URL => 'https://sertifikat.diklatonline.id/api/member/count_sertif',
 		  CURLOPT_RETURNTRANSFER => true,
 		  CURLOPT_ENCODING => '',
 		  CURLOPT_MAXREDIRS => 10,
@@ -743,7 +771,8 @@ class Page extends CI_Controller {
 	{
 		$curl = curl_init();
 		curl_setopt_array($curl, array(
-		  CURLOPT_URL => $this->config->item('url_api_sertifikat').'/member/list_sertif',
+		  // CURLOPT_URL => 'https://sertifikat.diklatonline.id/api/member/list_sertif',
+		  CURLOPT_URL => 'http://localhost/sertifikat.diklatonline.id/api/member/list_sertif',
 		  CURLOPT_RETURNTRANSFER => true,
 		  CURLOPT_ENCODING => '',
 		  CURLOPT_MAXREDIRS => 10,
@@ -765,7 +794,7 @@ class Page extends CI_Controller {
 	{
 		$curl = curl_init();
 		curl_setopt_array($curl, array(
-		  CURLOPT_URL => $this->config->item('url_api_event').'member/action/regis_event',
+		  CURLOPT_URL => 'https://event.lpkn.id/api/member/action/regis_event',
 		  CURLOPT_RETURNTRANSFER => true,
 		  CURLOPT_ENCODING => '',
 		  CURLOPT_MAXREDIRS => 10,
@@ -789,7 +818,7 @@ class Page extends CI_Controller {
 		$curl = curl_init();
 
 		curl_setopt_array($curl, array(
-		  CURLOPT_URL => $this->config->item('url_api_event').'member/action/upload_bukti',
+		  CURLOPT_URL => 'https://event.lpkn.id/api/member/action/upload_bukti',
 		  CURLOPT_RETURNTRANSFER => true,
 		  CURLOPT_ENCODING => '',
 		  CURLOPT_MAXREDIRS => 10,
@@ -815,7 +844,7 @@ class Page extends CI_Controller {
     {
 		$curl = curl_init();
 		curl_setopt_array($curl, array(
-		  CURLOPT_URL => $this->config->item('url_api_event').'member/event/ref/'.$ref,
+		  CURLOPT_URL => 'https://event.lpkn.id/api/member/event/ref/'.$ref,
 		  CURLOPT_RETURNTRANSFER => true,
 		  CURLOPT_ENCODING => '',
 		  CURLOPT_MAXREDIRS => 10,
@@ -836,7 +865,7 @@ class Page extends CI_Controller {
     {
 		$curl = curl_init();
 		curl_setopt_array($curl, array(
-		  CURLOPT_URL => $this->config->item('url_api_event').'member/event/ref_pay/'.$ref,
+		  CURLOPT_URL => 'https://event.lpkn.id/api/member/event/ref_pay/'.$ref,
 		  CURLOPT_RETURNTRANSFER => true,
 		  CURLOPT_ENCODING => '',
 		  CURLOPT_MAXREDIRS => 10,
@@ -857,7 +886,7 @@ class Page extends CI_Controller {
     {
 		$curl = curl_init();
 		curl_setopt_array($curl, array(
-		  CURLOPT_URL => $this->config->item('url_api_event').'member/event/bonus/'.$ref,
+		  CURLOPT_URL => 'https://event.lpkn.id/api/member/event/bonus/'.$ref,
 		  CURLOPT_RETURNTRANSFER => true,
 		  CURLOPT_ENCODING => '',
 		  CURLOPT_MAXREDIRS => 10,
@@ -878,7 +907,7 @@ class Page extends CI_Controller {
     {
 		$curl = curl_init();
 		curl_setopt_array($curl, array(
-		  CURLOPT_URL => $this->config->item('url_api_event').'member/action/addsaldo',
+		  CURLOPT_URL => 'https://event.lpkn.id/api/member/action/addsaldo',
 		  CURLOPT_RETURNTRANSFER => true,
 		  CURLOPT_ENCODING => '',
 		  CURLOPT_MAXREDIRS => 10,
@@ -901,7 +930,7 @@ class Page extends CI_Controller {
     {
 		$curl = curl_init();
 		curl_setopt_array($curl, array(
-		  CURLOPT_URL => $this->config->item('url_api_event').'member/action/update_ref',
+		  CURLOPT_URL => 'https://event.lpkn.id/api/member/action/update_ref',
 		  CURLOPT_RETURNTRANSFER => true,
 		  CURLOPT_ENCODING => '',
 		  CURLOPT_MAXREDIRS => 10,
@@ -932,7 +961,11 @@ class Page extends CI_Controller {
             $pdf = new PDF_Code39();
             $pdf->AddPage();
             $pdf->Image(base_url().'assets/img/depan_cetak.jpg', 10, 10,180, 55);
-            $pdf->Image(base_url()."uploads/foto_profile/".$member->pp, 18.5, 29, 15.1, 18.1);
+            $filephoto = $member->pp;
+			if(file_exists("uploads/foto_profile/". $filephoto) != FALSE && $filephoto != null){
+				$pdf->Image(base_url()."uploads/foto_profile/".$member->pp, 18.5, 29, 15.1, 18.1);
+			} 
+			
             $pdf->Image(base_url().'barcode/qr_generator.php?code='.$user->username, 21, 49, 10, 10, "png");
     
             $pdf->AddFont('courier','','courier.php');  
@@ -950,14 +983,14 @@ class Page extends CI_Controller {
         }
     }
 
-	public function getArtikel(){
+    public function getArtikel(){
 		// $id = 545;
 		$id = $this->input->post('id_artikel');
 		$data = ['id' => $id];
 		$curl = curl_init();
 		curl_setopt_array($curl, array(
 		//   CURLOPT_URL => 'https://lpkn.id/api/member//api/Artikel/get_artikel',
-		  CURLOPT_URL => 'http://localhost:81/lpkn.id/api/Artikel/get_artikel',
+		  CURLOPT_URL => 'http://localhost/lpkn.id/api/Artikel/get_artikel',
 		  CURLOPT_RETURNTRANSFER => true,
 		  CURLOPT_ENCODING => '',
 		  CURLOPT_MAXREDIRS => 10,
@@ -1058,7 +1091,7 @@ class Page extends CI_Controller {
 		$curl = curl_init();
 		curl_setopt_array($curl, array(
 		//   CURLOPT_URL => 'https://event.lpkn.id/api/member/Event/get_kodevoucher',
-		  CURLOPT_URL => 'http://localhost:81/event.lpkn.id/api/member/Event/get_kodevoucher',
+		  CURLOPT_URL => 'http://localhost/event.lpkn.id/api/member/Event/get_kodevoucher',
 		  CURLOPT_RETURNTRANSFER => true,
 		  CURLOPT_ENCODING => '',
 		  CURLOPT_MAXREDIRS => 10,
@@ -1076,30 +1109,33 @@ class Page extends CI_Controller {
 		curl_close($curl);
 
 		$result = json_decode($response, TRUE);
-
+		var_dump($result);die;
 		$dataresponse ='';
 		$html = '';
-
-		if($result['status'] == 'sukses' ){
-			if($result['lists'] !=''){	
-				$no = 1;
-				foreach($result['lists'] as $list){
-					$html .= '
-						<tr>
-							<td>'.$no++.'</td>
-							<td>'.$list['judul'].'</td>
-							<td>'.$list['kode_vocher'].'</td>
-						</tr>
-					';
+		if($result){
+			if($result['status'] == 'sukses' ){
+				if($result['lists'] !=''){	
+					$no = 1;
+					foreach($result['lists'] as $list){
+						$html .= '
+							<tr>
+								<td>'.$no++.'</td>
+								<td>'.$list['judul'].'</td>
+								<td>'.$list['kode_vocher'].'</td>
+							</tr>
+						';
+					}
+				}else{
+					$html = 'Kode Voucher tidak ditemukan';
 				}
+				$dataresponse = $html;
 			}else{
-				$html = 'Kode Voucher tidak ditemukan';
+				$dataresponse = 'Kode Voucher tidak ditemukan';
 			}
-			$dataresponse = $html;
-
 		}else{
-			$dataresponse = 'Kode Voucher tidak ditemukan';
+			$dataresponse = 'Data tidak ditemukan';
 		}
+		
 		
 
 		echo json_encode($dataresponse);
@@ -1122,8 +1158,8 @@ class Page extends CI_Controller {
 
 	public function download_peraturan(){
 		$param = $this->input->post('param');
-		// $url_link = 'https://lpkn.id/api/download/json_pasal';
-		$url_link = 'http://localhost:81/lpkn.id/api/download/json_pasal';
+		$url_link = 'https://lpkn.id/api/download/json_pasal';
+		$url_link = 'http://localhost/lpkn.id/api/download/json_pasal';
 
 		$data = ['param' => $param];
 		$curl = curl_init();
@@ -1154,7 +1190,7 @@ class Page extends CI_Controller {
 		$user = $this->ion_auth->user()->row();
 		$param = $this->input->post('param');
 		// $url_link = 'https://sertifikat.diklatonline.id/api/Member/get_video_dan_materi';
-		$url_link = 'http://localhost:81/sertifikat/api/Member/get_video_dan_materi';
+		$url_link = 'http://localhost/sertifikat.diklatonline.id/api/Member/get_video_dan_materi';
 
 		$data = ['param' => $param, 'email'=>$user->email];
 		$curl = curl_init();
@@ -1187,5 +1223,144 @@ class Page extends CI_Controller {
 
 		echo json_encode($dataresponse);
 	}
+    
+
+    public function search_event($keyword='')
+    {
+        $paging = $this->uri->segment(3);
+        if($paging > 1){
+            $page = $paging;
+
+        }else{
+            $page = 0;
+        }
+
+        $keyword = $this->input->get('keyword');
+        $this->load->library('pagination');
+
+        
+          $event =  json_decode($this->searchEvent($page,$keyword));
+        // $config['base_url'] = base_url().'page/allevent';
+        $config['base_url'] = base_url().'page/getLinkPage/'.$keyword;
+        $config['total_rows'] = ($event->count) ? $event->count : 0;
+        $config['per_page'] = 9;
+
+        $config['first_link']       = 'First';
+        $config['last_link']        = 'Last';
+        $config['next_link']        = 'Next';
+        $config['prev_link']        = 'Prev';
+        $config['full_tag_open']    = '<div class="pagging text-center"><nav><ul class="pagination justify-content-center">';
+        $config['full_tag_close']   = '</ul></nav></div>';
+        $config['num_tag_open']     = '<li class="page-item"><span class="page-link">';
+        $config['num_tag_close']    = '</span></li>';
+        $config['cur_tag_open']     = '<li class="page-item active"><span class="page-link">';
+        $config['cur_tag_close']    = '<span class="sr-only">(current)</span></span></li>';
+        $config['next_tag_open']    = '<li class="page-item"><span class="page-link">';
+        $config['next_tagl_close']  = '<span aria-hidden="true">&raquo;</span></span></li>';
+        $config['prev_tag_open']    = '<li class="page-item"><span class="page-link">';
+        $config['prev_tagl_close']  = '</span>Next</li>';
+        $config['first_tag_open']   = '<li class="page-item"><span class="page-link">';
+        $config['first_tagl_close'] = '</span></li>';
+        $config['last_tag_open']    = '<li class="page-item"><span class="page-link">';
+        $config['last_tagl_close']  = '</span></li>';
+        $this->pagination->initialize($config);
+
+        $data['pagination'] = $this->pagination->create_links();
+        $data['event'] = [];
+        if(!empty($event->event)){
+            $data['event'] = $event->event;
+        }
+
+       echo json_encode($data);
+
+    }
+
+    private function searchEvent($page, $keyword)
+    {
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+          // CURLOPT_URL => 'https://event.lpkn.id/api/member/event/search_event_page?keyword='.$keyword,
+          CURLOPT_URL => 'http://localhost/event.lpkn.id/api/member/event/search_event_page?page='.$page.'&keyword='.$keyword,
+          CURLOPT_RETURNTRANSFER => true,
+          CURLOPT_ENCODING => '',
+          CURLOPT_MAXREDIRS => 10,
+          CURLOPT_TIMEOUT => 0,
+          CURLOPT_FOLLOWLOCATION => true,
+          CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+          CURLOPT_CUSTOMREQUEST => 'GET',
+          CURLOPT_HTTPHEADER => array(
+            'Cookie: ci_session=ll7c9n7fav9lv01otctbitrmjpjmmp4j'
+          ),
+        ));
+        $response = curl_exec($curl);
+        curl_close($curl);
+        return $response;
+    }
+
+    function getDataKota(){
+        $id_prop = $this->input->post('i_prop');
+        $kota = $this->db->query("select id,nama from kota where id_propinsi= $id_prop ")->result();
+        echo json_encode($kota);
+
+    }
+
+     function expld($date){
+        $date = str_replace("/", "-", $date);
+        $date = explode("-",$date);
+        return $date;
+    }
+
+
+     public function getLinkPage($page = 0)
+    {
+        $keyword = $this->uri->segment(3);
+        $paging = $this->uri->segment(4);
+        if($paging > 1){
+            $page = $paging;
+
+        }else{
+            $page = 0;
+        }
+
+
+        $this->load->library('pagination');
+        $event = json_decode($this->searchEvent($page,$keyword));
+        // var_dump($event-count);die();
+        $config['base_url'] = base_url().'page/getLinkPage/'.$keyword;
+        $config['total_rows'] = (isset($event->count)) ? $event->count : 0;
+        $config['per_page'] = 9;
+
+        $config['first_link']       = 'First';
+        $config['last_link']        = 'Last';
+        $config['next_link']        = 'Next';
+        $config['prev_link']        = 'Prev';
+        $config['full_tag_open']    = '<div class="pagging text-center"><nav><ul class="pagination justify-content-center">';
+        $config['full_tag_close']   = '</ul></nav></div>';
+        $config['num_tag_open']     = '<li class="page-item"><span class="page-link">';
+        $config['num_tag_close']    = '</span></li>';
+        $config['cur_tag_open']     = '<li class="page-item active"><span class="page-link">';
+        $config['cur_tag_close']    = '<span class="sr-only">(current)</span></span></li>';
+        $config['next_tag_open']    = '<li class="page-item"><span class="page-link">';
+        $config['next_tagl_close']  = '<span aria-hidden="true">&raquo;</span></span></li>';
+        $config['prev_tag_open']    = '<li class="page-item"><span class="page-link">';
+        $config['prev_tagl_close']  = '</span>Next</li>';
+        $config['first_tag_open']   = '<li class="page-item"><span class="page-link">';
+        $config['first_tagl_close'] = '</span></li>';
+        $config['last_tag_open']    = '<li class="page-item"><span class="page-link">';
+        $config['last_tagl_close']  = '</span></li>';
+        $this->pagination->initialize($config);
+        $data = array(
+            'event' => $event,
+            'pagination' => $this->pagination->create_links()
+        );
+        $this->load->view('landing/layout/header');
+        $this->load->view('landing/page/event_all', $data);
+        $this->load->view('landing/layout/footer');
+    }
+
+
+
+
+
     
 }

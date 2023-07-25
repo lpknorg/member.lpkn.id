@@ -50,32 +50,32 @@
 	}
 
 	.img__description_layer {
-	font-size: 14px;
-	/*font-weight: bold;*/
-	position: absolute;
-	text-align: center;
-	padding: 6px
-	top: auto;
-	/*top: 100px;*/
-	width: 100%;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	border-radius: 0px 0px 5px 5px;
-	/*background: rgba(0 0 0 / 85%);*/
-	color: white;
-	visibility: hidden;
-	opacity: 0;
-	/*display: flex;*/
-	align-items: center;
-	justify-content: bottom;
+		font-size: 14px;
+		/*font-weight: bold;*/
+		position: absolute;
+		text-align: center;
+		padding: 6px
+		top: auto;
+		/*top: 100px;*/
+		width: 100%;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		border-radius: 0px 0px 5px 5px;
+		/*background: rgba(0 0 0 / 85%);*/
+		color: white;
+		visibility: hidden;
+		opacity: 0;
+		/*display: flex;*/
+		align-items: center;
+		justify-content: bottom;
 
-	/* transition effect. not necessary */
-	transition: opacity .2s, visibility .2s;
+		/* transition effect. not necessary */
+		transition: opacity .2s, visibility .2s;
 	}
 	.img__wrap:hover .img__description_layer {
-	visibility: visible;
-	opacity: 1;
+		visibility: visible;
+		opacity: 1;
 	}
 
 	/*button load_more*/
@@ -129,10 +129,10 @@ $user = $this->ion_auth->user()->row();
 
 	                <ul class="list-group list-group-unbordered mb-3">
 	                  <li class="list-group-item">
-	                    <b>Ikut Event</b> <a class="float-right"><?=$jum_event['event_diikuti']?></a>
+	                    <b>Ikut Event</b> <a class="float-right"><?= (isset($jum_event['event_diikuti'])) ? $jum_event['event_diikuti']:'0'; ?></a>
 	                  </li>
 	                  <li class="list-group-item">
-	                    <b>Data Sertifikat</b> <a class="float-right"><?=$jum_sertif['jum_sertif']?></a>
+	                    <b>Data Sertifikat</b> <a class="float-right"><?= (isset($jum_event['jum_sertif'])) ? $jum_sertif['jum_sertif'] : ''; ?></a>
 	                  </li>
 	                </ul>
 
@@ -151,22 +151,22 @@ $user = $this->ion_auth->user()->row();
 	              <div class="card-body">
 	                <strong><i class="fas fa-at mr-1"></i> Email</strong>
 	                  <p class="text-muted">
-	                    <?=$user->email?>
+	                    <?=(!empty($user->email)) ? $user->email : ''?>
 	                  </p>
 	                <hr>
 	                <strong><i class="fas fa-phone mr-1"></i> No. Tlp</strong>
 	                  <p class="text-muted">
-	                    <?=$member->no_hp ? $member->no_hp : '-' ?>
+	                    <?=(!empty($member->no_hp)) ? $member->no_hp : '-' ?>
 	                  </p>
 	                <hr>
 	                <strong><i class="fas fa-map-marker-alt mr-1"></i> Instansi</strong>
 	                  <p class="text-muted">
-	                    <?=$user->company?>
+	                    <?= (!empty($user->company)) ? $user->company : ''?>
 	                  </p>
 	                <hr>
 	                <strong><i class="fas fa-map-marker-alt mr-1"></i> Alamat Lengkap</strong>
 	                  <p class="text-muted">
-	                    <?=$member->alamat_lengkap?>
+	                    <?=(!empty($member->alamat_lengkap)) ? $member->alamat_lengkap: ''?>
 	                  </p>
 	                <!--
 	                <hr>
@@ -214,19 +214,21 @@ $user = $this->ion_auth->user()->row();
 								<p class=" border-bottom">Kemi merekomendasikan Event dibawah untukmu dari beberapa aktiritas kami di web ini</p>
 										<div class="row">
 											<?php 
+												if($new_event){													
 												foreach ($new_event['event'] as $list_new_event) {
 											?>
-										<div class="col-sm-4 card-wrapper-special">
-											<div class="card card-special img__wrap">
-											<img class="card-img-top card-img-top-special" src="<?=$list_new_event['brosur_img']?>" alt="Card image cap">
-											<div class="img__description_layer">
-												<p style="padding: 6px">
-												<!-- <?=$list_new_event['judul']?><br> -->
-												<button type="button" onclick="get_event('<?=$list_new_event['slug']?>');" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">Selengkapnya</button>
-											</div>
-											</div>
-										</div> 
+												<div class="col-sm-4 card-wrapper-special">
+													<div class="card card-special img__wrap">
+													<img class="card-img-top card-img-top-special" src="<?=$list_new_event['brosur_img']?>" alt="Card image cap">
+													<div class="img__description_layer">
+														<p style="padding: 6px">
+														<!-- <?=$list_new_event['judul']?><br> -->
+														<button type="button" onclick="get_event('<?=$list_new_event['slug']?>');" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">Selengkapnya</button>
+													</div>
+													</div>
+												</div> 
 										<?php 
+												}
 											}
 										?>                       
 										</div>
@@ -239,6 +241,8 @@ $user = $this->ion_auth->user()->row();
 								<p class=" border-bottom">Kemi merekomendasikan Event dibawah untukmu dari beberapa aktiritas kami di web ini</p>
 										<div class="row">
 											<?php 
+												if(!empty($waiting_event)){
+
 												foreach ($waiting_event['event'] as $list_waiting_event) {
 											?>
 										<div class="col-sm-4 card-wrapper-special">
@@ -252,6 +256,7 @@ $user = $this->ion_auth->user()->row();
 											</div>
 										</div> 
 										<?php 
+												}
 											}
 										?>                       
 										</div>
@@ -272,29 +277,37 @@ $user = $this->ion_auth->user()->row();
 										</tr>
 									</thead>
 									<tbody>
-												<?php
-													$no = 1;
-													foreach ($list_sertif['list'] as $list) {
-												?>
+										<?php
+											if(!empty($list_sertif['list'])){
+
+											$no = 1;
+											foreach ($list_sertif['list'] as $list) {
+										?>
 										<tr>
 											<td><?=$no++?></td>
 											<td><?=$list['judul']?></td>
 											<td>
-					                    	<?php if(is_null($list['testimoni'])){ ?>
-					                    	<form method="POST" action="<?=$this->config->item('url_api_sertifikat').'member/testimoni_peserta/'.$list['sertifikat_id']?>" id="formTestimoni">
-					                    		<textarea class="form-control" rows="3" placeholder="Masukkan testimoni anda" name="testimoni" required></textarea>
-							        			<button type="submit" class="btn btn-success btn-sm mt-1">Kirim</button> <br>
-								        			<span class="text-warning" style="font-size: 13px;">* download sertifikat dapat dilakukan setelah mengirim testimoni
-								        			</span>
-					                    	</form>	
-					                    	<?php } else if($list['testimoni'] && $list['testimoni_status'] == 0){ ?>
-					                    	<a class="btn btn-success btn-sm disabled" disabled>Download</a>	
-					                    	<?php }else{ ?>
-					                    	<a class="btn btn-success btn-sm" target="blank_" href="<?=$list['download']?>">Download</a>
-					                    	<?php } ?>
+					                    	<?php 
+					                    		// var_dump($list_sertif);die;
+					                    		if(!empty($list['testimoni']) && is_null($list['testimoni'])){ ?>
+								                    	<form method="POST" action="<?=$this->config->item('url_api_sertifikat').'member/testimoni_peserta/'.$list['sertifikat_id']?>" id="formTestimoni">
+								                    		<textarea class="form-control" rows="3" placeholder="Masukkan testimoni anda" name="testimoni" required></textarea>
+										        			<button type="submit" class="btn btn-success btn-sm mt-1">Kirim</button> <br>
+											        			<span class="text-warning" style="font-size: 13px;">* download sertifikat dapat dilakukan setelah mengirim testimoni
+											        			</span>
+								                    	</form>	
+						                    	<?php } else if(!empty($list['testimoni']) && $list['testimoni'] && $list['testimoni_status'] == 0){ ?>
+						                    	<a class="btn btn-success btn-sm disabled" disabled>Download</a>	
+						                    	<?php }else{ ?>
+						                    	<a class="btn btn-success btn-sm" target="blank_" href="<?=$list['download']?>">Download</a>
+						                    <?php } ?>
+					                    	
 					                    </td>
 										</tr>
-												<?php }?>
+												<?php 
+											}
+										}
+											?>
 										</tbody>
 									</table>
 									<!-- </div> -->
@@ -306,98 +319,156 @@ $user = $this->ion_auth->user()->row();
 								</h5>
 										<div class="row">
 											<?php 
+												if(!empty($my_event)){
 												foreach ($my_event['event'] as $list_event) {
 											?>
-										<div class="col-sm-4 card-wrapper-special">
-											<div class="card card-special img__wrap">
-											<img class="card-img-top card-img-top-special" src="<?=$list_event['brosur_img']?>" alt="Card image cap">
-											<div class="img__description_layer">
-												<p style="padding: 6px">
-												<!-- <?=$list_event['judul']?><br> -->
-												<button type="button" onclick="get_event('<?=$list_event['slug']?>');" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">Selengkapnya</button>
-											</div>
-											</div>
-										</div> 
+												<div class="col-sm-4 card-wrapper-special">
+													<div class="card card-special img__wrap">
+													<img class="card-img-top card-img-top-special" src="<?=$list_event['brosur_img']?>" alt="Card image cap">
+													<div class="img__description_layer">
+														<p style="padding: 6px">
+														<!-- <?=$list_event['judul']?><br> -->
+														<button type="button" onclick="get_event('<?=$list_event['slug']?>');" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">Selengkapnya</button>
+													</div>
+													</div>
+												</div> 
 										<?php 
+												}
+
 											}
-										?>               
-										</div>
+										?>   
+
+											<table class="table table-bordered table-striped table-sm dataTable no-footer dtr-inline" id="listmateri">
+												<thead>
+													<tr>
+														<th>No</th>
+														<th>Nama Event</th>
+														<th>Materi & Video</th>
+													</tr>
+												</thead>
+												<tbody class="table-listmateri">
+													<?php 
+												if(!empty($list_sertif)){
+													$no = 1;
+													foreach ($list_sertif['list'] as $k => $list) {  
+																?>
+																<tr>
+																	<td><?= $no++;?></td>
+																	<td><?= $list['judul']?></td>
+																	<td><?= ($list['video']) ? $list['video'] : ' - ' ;?></td>
+																</tr>
+
+															<?php 
+														 	} 
+														}?>
+												</tbody>
+											</table>            
+									</div>
+										
 						</div>
 						<!-- /.tab-pane -->
-
 						<div class="<?=$active == 'profile' ? 'active' : ''?> tab-pane" id="settings">
 								<h2>Update Profile Member</h2>
 								<hr/>
 							<form class="form-horizontal" method="post" action="./update_profile" class="jsform">
 							<div class="form-group row">
 								<label for="nik" class="col-sm-2 col-form-label">No. Member</label>
-								<label for="nik" class="col-sm-10 col-form-label">: <?=$member->nik?></label>
+								<label for="nik" class="col-sm-10 col-form-label">: <?=(!empty($member->nik)) ? $member->nik:''?></label>
 								<!-- <input type="hidden" name="nik" value="<?=$member->nik?>"> -->
 							</div>
 							<div class="form-group row">
 								<label for="" class="col-sm-2 col-form-label">Nama Lengkap</label>
 								<div class="col-sm-10">
-								<input type="text" required name="nama_lengkap" class="form-control" id="inputName" placeholder="Name" value="<?=$member->nama_lengkap?>">
+								<input type="text" required name="nama_lengkap" class="form-control" id="inputName" placeholder="Name" value="<?=(!empty($member->nama_lengkap) ) ? $member->nama_lengkap : ''?>">
 								</div>
 							</div>
 							<div class="form-group row">
 								<label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
 								<div class="col-sm-10">
-								<input type="email" class="form-control" id="inputEmail" readonly placeholder="Email" value="<?=$member->email?>">
+								<input type="email" class="form-control" id="inputEmail" readonly placeholder="Email" value="<?=(!empty($member->email)) ? $member->email:''?>">
 								<span><i><small class="text-warning">(Perubahan Email membutuhkan bantuan panitia, karena akan berdampak kepada data event Anda)</small></i></span>
 								</div>
 							</div>
 							<div class="form-group row">
-								<label for="inputNo_Hp" class="col-sm-2 col-form-label">No_Hp </label>
+								<label for="inputNo_Hp" class="col-sm-2 col-form-label">No Hp </label>
 								<div class="col-sm-10">
-								<input type="number" class="form-control" id="inputNo_Hp" required name="no_hp" placeholder="Email" value="<?=$member->no_hp?>">
+								<input type="number" class="form-control" id="inputNo_Hp" required name="no_hp" placeholder="Email" value="<?=(!empty($member->no_hp))? $member->no_hp:''?>">
 								<span><i><small class="text-warning">(Gunakan nomor WhatsApp Aktif)</small></i></span>
 								</div>
 							</div>
 							<div class="form-group row">
 								<label for="inputTmptLahir" class="col-sm-2 col-form-label">Tempat Lahir</label>
 								<div class="col-sm-10">
-								<input type="text" name="tempat_lahir" class="form-control" id="inputTmptLahir" placeholder="Tempat Lahir" value="<?=$member->tempat_lahir?>">
+								<input type="text" name="tempat_lahir" class="form-control" id="inputTmptLahir" placeholder="Tempat Lahir" value="<?=(!empty($member->tempat_lahir) ) ? $member->tempat_lahir:''?>">
 								</div>
 							</div>
 							<div class="form-group row">
-								<label for="inputTanggalLahir" class="col-sm-2 col-form-label">Tanggal Lahir</label>
+                            	<label for="inputPropinsi" class="col-sm-2 col-form-label">Domisili Propinsi</label>
+                            	<div class="col-sm-10">
+	                            	<select name="id_propinsi" class="form-control"  id="select_prop">
+	                                    <?php 
+	                                            foreach($propinsi as $prop){
+	                                            	$selected ='';
+		                                            if(!empty($member->id_propinsi) && $member->id_propinsi ==  $prop->id){
+		                                            	$selected = 'selected';
+		                                            }
+	                                            ?>
+	                                            <option value="<?= $prop->id ?>" <?=$selected?>><?= $prop->nama ?></option>
+	                                    <?php } ?>
+	                                </select>
+	                             </div>
+                            </div>
+							<div class="form-group row inputDataKota" style="display: none;">
+								<label for="inputKota" class="col-sm-2 col-form-label">Domisili Kota</label>
 								<div class="col-sm-10">
-								<input type="date" name="tgl_lahir" class="form-control" id="inputTanggalLahir" placeholder="Tanggal Lahir" value="<?=$member->tgl_lahir?>">
-								</div>
-							</div>
+									<select name="id_kota" class="form-control" id="select_kota" >
+	                                   
+	                                </select>
+	                            </div>
+                             </div>
+
 							<div class="form-group row">
-								<label for="inputAlamat" class="col-sm-2 col-form-label">Alamat</label>
+								<label for="inputAlamat" class="col-sm-2 col-form-label">Alamat Domisili lengkap</label>
 								<div class="col-sm-10">
-									<textarea class="form-control" id="inputAlamat" required name="alamat_lengkap"><?=$member->alamat_lengkap?></textarea>
+									<textarea class="form-control" id="inputAlamat" required name="alamat_lengkap"><?=(!empty($member->alamat_lengkap)) ? $member->alamat_lengkap : ''?></textarea>
 								</div>
 							</div>
-							<div class="form-group row">
-								<label for="Instansi" class="col-sm-2 col-form-label">Instansi</label>
-								<div class="col-sm-10">
-								<input type="text" required name="instansi" class="form-control" id="Instansi" placeholder="Instansi" value="<?=$member->instansi?>">
-								</div>
-							</div>
+
 							<div class="form-group row">
 								<label for="profesi" class="col-sm-2 col-form-label">Profesi</label>
 								<div class="col-sm-10">
 									<select name="profesi" type="text" class="form-control " required="" >
 										<option value=""> Pilih Profesi </option>
-										<option value="asn" <?php if($member->profesi == 'asn') { ?> selected="selected"<?php } ?>> ASN </option>
-										<option value="nonasn" <?php if($member->profesi == 'nonasn') { ?> selected="selected"<?php } ?>> Non ASN </option>
+										<option value="asn" <?php if(!empty($member->profesi) && $member->profesi == 'asn') { ?> selected="selected"<?php } ?>> ASN </option>
+										<option value="nonasn" <?php if(!empty($member->profesi) && $member->profesi == 'nonasn') { ?> selected="selected"<?php } ?>> Non ASN </option>
 									</select>
 								</div>
 							</div>
+
+							<div class="form-group row">
+								<label for="Instansi" class="col-sm-2 col-form-label">Instansi</label>
+								<div class="col-sm-10">
+								<input type="text" required name="instansi" class="form-control" id="Instansi" placeholder="Instansi" value="<?=(!empty($member->instansi)) ? $member->instansi : ''?>">
+								</div>
+							</div>
+
+							<div class="form-group row">
+								<label for="inputAlamatKantor" class="col-sm-2 col-form-label">Alamat Kantor </label>
+								<div class="col-sm-10">
+									<textarea class="form-control" id="inputAlamatKantor" required name="alamat_lengkap_kantor"><?=(!empty($member->alamat_lengkap))? $member->alamat_lengkap:''?></textarea>
+								</div>
+							</div>
+							
 							<div class="form-group row">
 								<label for="fb" class="col-sm-2 col-form-label">Akun Facebook</label>
 								<div class="col-sm-10">
-								<input type="text" required name="fb" class="form-control" id="fb" placeholder="Akun Facebook" value="<?=$member->fb?>">
+								<input type="text" required name="fb" class="form-control" id="fb" placeholder="Akun Facebook" value="<?=(!empty($member->fb))? $member->fb: ''?>">
 								</div>
 							</div>
 							<div class="form-group row">
 								<label for="instagram" class="col-sm-2 col-form-label">Akun Instagram</label>
 								<div class="col-sm-10">
-								<input type="text" required name="instagram" class="form-control" id="instagram" placeholder="Akun Instagram" value="<?=$member->instagram?>">
+								<input type="text" required name="instagram" class="form-control" id="instagram" placeholder="Akun Instagram" value="<?=(!empty($member->instagram) )? $member->instagram : ''?>">
 								</div>
 							</div>
 							<div class="form-group row">
@@ -433,7 +504,7 @@ $user = $this->ion_auth->user()->row();
 											<li>Penghitungan Bonus : Peserta Anda yang telah melakukan Pembayaran x Bonus</li>
 											<li>Ilustrasi : Peserta yang mendaftar melalui Link Affilitae anda sebanyak 250 orang, dan 200 orang telah menyelesaikan Pembayaran, maka Bonus Anda adalah 200 x Rp. 150.000 = Rp. 30.000.000,-</li>
 										</ul>
-										<?php if(is_null($member->ref)){ ?>
+										<?php if(!empty($member) && is_null($member->ref)){ ?>
 										<div class="text-center">
 											<div class="h5 text-warning">Aktifkan Afiliasi Kamu</div>
 											<a onclick="return confirm('Are you sure?');" href="<?=base_url()?>page/act_ref" class="btn btn-success">Aktifkan Sekarang</a>
@@ -447,23 +518,23 @@ $user = $this->ion_auth->user()->row();
 										<form class="form-horizontal" method="post" action="./update_ref" class="jsform">
 											<div class="form-group row">
 											<label for="nik" class="col-sm-2 col-form-label">Kode Referensi</label>
-											<label for="nik" class="col-sm-10 col-form-label">: <?=$member->ref?></label>
+											<label for="nik" class="col-sm-10 col-form-label">: <?=!empty($member->ref) ? $member->ref:''?></label>
 											<!-- <input type="hidden" name="nik" value="<?=$member->nik?>"> -->
 											</div>
 											<div class="form-group row">
 											<label for="" class="col-sm-2 col-form-label">Nama Bank</label>
 											<div class="col-sm-3">
-												<input type="text" required name="bank_rek_ref" class="form-control" id="inputName" placeholder="Contoh: BRI" value="<?=$member->bank_rek_ref?>">
+												<input type="text" required name="bank_rek_ref" class="form-control" id="inputName" placeholder="Contoh: BRI" value="<?=(!empty($member->bank_rek_ref)) ? $member->bank_rek_ref: ''?>">
 											</div>
 											<label for="" class="col-sm-2 col-form-label">No. Rekening</label>
 											<div class="col-sm-5">
-												<input type="number" required name="no_rek_ref" class="form-control" id="inputName" placeholder="No. Rekening" value="<?=$member->no_rek_ref?>">
+												<input type="number" required name="no_rek_ref" class="form-control" id="inputName" placeholder="No. Rekening" value="<?=(!empty($member->no_rek_ref))? $member->no_rek_ref:''?>">
 											</div>
 											</div>
 											<div class="form-group row">
 											<label for="inputEmail" class="col-sm-2 col-form-label">A/N Rekening</label>
 											<div class="col-sm-10">
-												<input type="text" required name="an_rek_ref" class="form-control" id="inputEmail" placeholder="A/N Pemilik Rekening" value="<?=$member->an_rek_ref?>">
+												<input type="text" required name="an_rek_ref" class="form-control" id="inputEmail" placeholder="A/N Pemilik Rekening" value="<?=(!empty($member->an_rek_ref))? $member->an_rek_ref:''?>">
 												<span><i><small class="text-warning">(Perubahan Email membutuhkan bantuan panitia, karena akan berdampak kepada data event Anda)</small></i></span>
 											</div>
 											</div>
@@ -491,7 +562,7 @@ $user = $this->ion_auth->user()->row();
 						<div class="tab-pane kodevoucher" id="kodevoucher">
 							<h5 class="pb-2 font-italic border-bottom">Kode Voucher Kamu</h5>
 							<div class="row kodevoucher" id="kodevoucher" >
-								<table class="table table-striped table-sm" id="listkodevaoucher">
+								<table class="table table-bordered table-striped table-sm" id="listkodevaoucher">
 									<thead>
 										<tr>
 											<th>No</th>
@@ -500,7 +571,19 @@ $user = $this->ion_auth->user()->row();
 										</tr>
 									</thead>
 									<tbody class="table-kodevoucher">
-										
+										<?php
+											if(!empty($detailevent)){
+												$no = 1;
+												foreach($detailevent as $key => $de){
+												 ?>
+													<tr>
+														<td><?= $no++;?></td>
+														<td><?= $de['judul']?></td>
+														<td><?= $de['kdvcr']?></td>
+													</tr>
+										<?php	}
+											}
+										?>
 									</tbody>
 
 								</table>						
@@ -658,23 +741,31 @@ $user = $this->ion_auth->user()->row();
         })
     });
 
-	load_kodevoucher();
-	function load_kodevoucher(){
-		var email = '<?php echo $user->email; ?>';
-		$.ajax({
-			url:"<?=base_url()?>page/getKodeVoucher",    //the page containing php script
-			type: "post",    //request type,
-			dataType: 'json',
-			data: {email:email},
-			success:function(result){
-				console.log(result);
-				$('.table-kodevoucher').html(result);
-			}
-		});
+    $("select#select_prop").change(function() {
+    	var i_prop = $(this).val();
+        getDataKota(i_prop);
+        $(".inputDataKota").show()
+        $("#select_kota").val('')
+    });
 
-	}
-
-
+    function getDataKota(i_prop){
+        $.ajax({
+            url:"<?=base_url()?>page/getDataKota",
+            type: "post",
+            data : {i_prop:i_prop},
+            dataType : 'json',
+            success: function(json){
+            	console.log(json)
+                var $el = $("#select_kota");
+                $el.empty(); 
+                $el.append($("<option></option>").attr("value", "").text("Pilih"));
+                $.each(json , function (key, value) {
+                    $el.append($("<option></option>").attr("value", value.id).text(value.nama));
+                })
+            }
+        });
+    }
+	
   </script>
 
 <script src="<?=base_url()?>assets/adminlte/plugins/datatables/jquery.dataTables.min.js"></script>
@@ -690,13 +781,13 @@ $user = $this->ion_auth->user()->row();
 <script src="<?=base_url()?>assets/adminlte/plugins/datatables-buttons/js/buttons.print.min.js"></script>
 <script src="<?=base_url()?>assets/adminlte/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 <script>
-/*
+
   $(function () {
-    $("#example1").DataTable({
-      "responsive": true, "lengthChange": false, "autoWidth": false,
-      "buttons": ["copy", "csv", "excel", "pdf", "print"]
-    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-    $('#example2').DataTable({
+    // $("#listkodevaoucher").DataTable({
+    //   "responsive": true, "lengthChange": false, "autoWidth": false,
+    //   "buttons": ["copy", "csv", "excel", "pdf", "print"]
+    // }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+    $('#listmateri').DataTable({
       "paging": true,
       "lengthChange": false,
       "searching": false,
@@ -705,6 +796,17 @@ $user = $this->ion_auth->user()->row();
       "autoWidth": false,
       "responsive": true,
     });
+
+     $('#listkodevaoucher').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+      "responsive": true,
+    });
+
   });
-  */
+  
 </script>
