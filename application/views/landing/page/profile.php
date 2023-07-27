@@ -209,7 +209,7 @@ $user = $this->ion_auth->user()->row();
 						<div class="<?=$active == 'recomended' ? 'active' : ''?> tab-pane" id="recomended">
 							<!-- Post -->
 								<h5 class="font-italic">
-									Rekomentasi Event <small><a class="badge badge-primary" href="<?=base_url()?>page/allevent">Semua Event</a></small>
+									Rekomendasi Event <small><a class="badge badge-primary" href="<?=base_url()?>page/allevent">Semua Event</a></small>
 								</h5>
 								<p class=" border-bottom">Kemi merekomendasikan Event dibawah untukmu dari beberapa aktiritas kami di web ini</p>
 										<div class="row">

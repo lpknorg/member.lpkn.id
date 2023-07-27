@@ -133,7 +133,7 @@
               
 
               <div class="blog-post">
-                <h2 class="blog-post-title">Total Event : <?= (isset($event->count)) ? $event->count : ''?></h2>
+                <h2 class="blog-post-title total-event">Total Event : <?= (isset($event->count)) ? $event->count : ''?></h2>
                 <div class="row" id="content-event">
                   <!-- <div class="grid" style="padding: 0em 0 1em;"> -->
                     <?php
@@ -172,61 +172,65 @@
         </main><!-- /.container -->
       </div>
     </div>
+
+   
+
 <link href="<?=base_url()?>assets/vendors/offcanvas/tworows.css" rel="stylesheet">
 <script type="text/javascript">
   $(document).ready(function(){
       $("#serch_event").on("click", function() {
         var keyword = $("#search-keyword").val();
-      $("#content-event").html('')
+      
       $("#pagination").html('')
-
         getevent(keyword);
 
       });
+
+
+      $('.modal').on('show.bs.modal', function () {
+          $('.modal').not($(this)).each(function () {
+              $(this).modal('hide');
+          });
+      });
+
   })
 
-function getevent(keyword) 
-{ 
-  $.ajax({
-        type: "GET", 
-        url: '<?php echo base_url('page/search_event'); ?>', 
-        data: {keyword : keyword},
-        success: function (response) {
-          response = JSON.parse(response);
-          // $('#pagination').html(response.pagination);
-          var html = '';
+  function getevent(keyword) 
+  { 
+    $('#content-event').html('')
 
-            $.each(response.event, function(key,value) {
-              console.log(value)
-              html += '<div class="col-lg-4 col-6 card-wrapper-special">'+
-                        '<div class="card card-special img__wrap">'+
-                          '<img class="card-img-top card-img-top-special" src="'+value.brosur_img+'" alt="Card image cap">'+
-                          '<div class="img__description_layer">'+
-                            '<p style="padding: 6px">'+
-                              '<button type="button" onclick="get_event("'+value.slug+'");" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">Selengkapnya'+
-                                
-                              '</button>'+
-                            '</p>'+
-                          '</div>'+
-                        '</div>'+
-                      '</div>  '+
-                      '<div class="col-lg-4 col-6 card-wrapper-special">'+
-                        '<div class="card card-special img__wrap">'+
-                          '<img class="card-img-top card-img-top-special" src="'+value.brosur_img+'" alt="Card image cap">'+
-                          '<div class="img__description_layer">'+
-                            '<p style="padding: 6px">'+
-                              '<button type="button" onclick="get_event("'+value.slug+'");" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">Selengkapnya'+
-                              '</button>'+
-                            '</p>'+
-                          '</div>'+
-                        '</div>'+
-                      '</div>';
+    $.ajax({
+          type: "GET", 
+          // url: '<?php echo base_url('page/searchEvent'); ?>', 
+          url: '<?php echo base_url('page/search_event'); ?>', 
+          data: {keyword : keyword},
+          success: function (response) {
+            response = JSON.parse(response);
+            console.log(response.event)
+            $('.total-event').html("Total Event : "+response.total_rows);
+            $('#pagination').html(response.pagination);
+            var html = '';
 
-                  });
+              $.each(response.event, function(key,value) {
+                html += `<div class="col-lg-4 col-6 card-wrapper-special">
+                          <div class="card card-special img__wrap">
+                            <img class="card-img-top card-img-top-special" src="${value.brosur_img}" alt="Card image cap">
+                            <div class="img__description_layer">
+                              <p style="padding: 6px">
+                                <button type="button" onclick="get_event('${value.slug}');" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">Selengkapnya
+                                </button>
+                              </p>
+                            </div>
+                          </div>
+                        </div>`;
 
-          $('#content-event').html(html);
-        },
-    });
-}
+                    });
+
+            $('#content-event').html(html);      
+            
+
+          },
+      });
+  }
 
 </script>

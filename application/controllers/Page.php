@@ -1240,7 +1240,7 @@ class Page extends CI_Controller {
 
         
           $event =  json_decode($this->searchEvent($page,$keyword));
-        // $config['base_url'] = base_url().'page/allevent';
+          // print_r($event->count);die;
         $config['base_url'] = base_url().'page/getLinkPage/'.$keyword;
         $config['total_rows'] = ($event->count) ? $event->count : 0;
         $config['per_page'] = 9;
@@ -1268,6 +1268,7 @@ class Page extends CI_Controller {
         $data['pagination'] = $this->pagination->create_links();
         $data['event'] = [];
         if(!empty($event->event)){
+            $data['total_rows'] = (isset($event->count)) ? $event->count : 0;
             $data['event'] = $event->event;
         }
 
@@ -1279,8 +1280,8 @@ class Page extends CI_Controller {
     {
         $curl = curl_init();
         curl_setopt_array($curl, array(
-          // CURLOPT_URL => 'https://event.lpkn.id/api/member/event/search_event_page?keyword='.$keyword,
-          CURLOPT_URL => 'http://localhost/event.lpkn.id/api/member/event/search_event_page?page='.$page.'&keyword='.$keyword,
+          CURLOPT_URL => 'https://event.lpkn.id/api/member/event/search_event_page?page='.$page.'&keyword='.$keyword,
+        //   CURLOPT_URL => 'http://localhost/event.lpkn.id/api/member/event/search_event_page?page='.$page.'&keyword='.$keyword,
           CURLOPT_RETURNTRANSFER => true,
           CURLOPT_ENCODING => '',
           CURLOPT_MAXREDIRS => 10,
@@ -1350,6 +1351,7 @@ class Page extends CI_Controller {
         $config['last_tagl_close']  = '</span></li>';
         $this->pagination->initialize($config);
         $data = array(
+            'total_rows' => (isset($event->count)) ? $event->count : 0,
             'event' => $event,
             'pagination' => $this->pagination->create_links()
         );
